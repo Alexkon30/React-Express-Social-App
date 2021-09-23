@@ -4,6 +4,35 @@
   box-sizing: border-box;
 }
 
+html {
+  font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+a {
+  text-decoration: none;
+  color: whitesmoke;
+}
+
 .navbar {
   border: 1px solid black;
+  background-color: gray;
+  height: 70px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+}
+
+.navbar__logo {
+  display: flex;
+  align-items: center;
+  margin: auto;
+}
+
+.navbar img {
+  height: 70px;
+}
+
+.navbar__logout {
+  margin-right: 10px;
 }

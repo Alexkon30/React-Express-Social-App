@@ -11,13 +11,13 @@ function App() {
     <BrowserRouter>
       <Navbar />
       <Switch>
-        <Route path="/login">
+        <Route exact path="/">
           <Login />
         </Route>
         <Route path="/register">
           <Register />
         </Route>
-        <Route exact path="/">
+        <Route path="/user">
           <Userpage />
         </Route>
         <Redirect to="/" />
