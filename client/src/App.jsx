@@ -1,29 +1,36 @@
-import React from 'react';
+import React, { createContext, useState } from 'react';
 import Login from './pages/Login';
 import Register from './pages/Register';
 import Userpage from './pages/Usergape';
 import Navbar from './components/Navbar';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import './styles/App.css';
+import ModeContext from './context/context';
 
 function App() {
-  return (
-    <BrowserRouter>
-      <Navbar />
-      <Switch>
-        <Route exact path="/">
-          <Login />
-        </Route>
-        <Route path="/register">
-          <Register />
-        </Route>
-        <Route path="/user">
-          <Userpage />
-        </Route>
-        <Redirect to="/" />
-      </Switch>
+  const [mode, setMode] = useState('login');
 
-    </BrowserRouter>
+  return (
+    <ModeContext.Provider value={{
+      mode,
+      setMode
+    }}>
+      <BrowserRouter>
+        <Navbar />
+        <Switch>
+          <Route exact path="/">
+            <Login />
+          </Route>
+          <Route path="/register">
+            <Register />
+          </Route>
+          <Route path="/user">
+            <Userpage />
+          </Route>
+          <Redirect to="/" />
+        </Switch>
+      </BrowserRouter>
+    </ModeContext.Provider>
   );
 }
 

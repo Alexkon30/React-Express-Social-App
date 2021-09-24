@@ -1,9 +1,10 @@
 import React from 'react'
+import Loginform from '../components/Loginform'
 
 const Login = () => {
   return (
     <div>
-      login page test
+      <Loginform />
     </div>
   )
 }

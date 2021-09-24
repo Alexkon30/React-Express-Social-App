@@ -1,0 +1,97 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+a {
+  text-decoration: none;
+  color: whitesmoke;
+}
+
+.navbar {
+  border: 1px solid black;
+  background-color: gray;
+  height: 70px;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: end;
+
+  img {
+    height: 70px;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    margin-right: auto;
+    margin-left: 20px;
+  }
+
+  &__login {
+    margin-right: 20px;
+  }
+}
+
+.registration,
+.loginform {
+  border: 1px solid gray;
+  border-radius: 4px;
+  max-width: fit-content;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: auto;
+  margin-top: 45px;
+  padding: 20px 100px;
+
+  & input {
+    height: 30px;
+    width: 300px;
+    border-radius: 3px;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  &__footer {
+    display: flex;
+    margin-top: 8px;
+    font-size: 12px;
+
+    &__text {
+      margin-right: 10px;
+    }
+  }
+
+  &__btn {
+    height: 30px;
+    background-color: rgb(169, 182, 142);
+    border-radius: 5px;
+    color: white;
+
+    &:hover {
+      border: 3px solid rgb(103, 133, 133);
+      color: white;
+      background-color: gray;
+    }
+  }
+
+  & a {
+    color: grey
+  }
+}
+
+.my__input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 10px;
+}
