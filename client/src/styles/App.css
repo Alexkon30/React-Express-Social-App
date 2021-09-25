@@ -6,6 +6,9 @@
 html {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
 }
+body {
+  background-image: url(background.jpg);
+}
 a {
   text-decoration: none;
   color: whitesmoke;
@@ -28,8 +31,23 @@ a {
   margin-right: auto;
   margin-left: 20px;
 }
-.navbar__login {
+.navbar__btn {
   margin-right: 20px;
+  border: 2px solid white;
+  border-radius: 6px;
+  transition: 200ms;
+}
+.navbar__btn a {
+  display: block;
+  height: 100%;
+  padding: 5px 20px;
+}
+.navbar__btn:hover {
+  background-color: white;
+  transition: 200ms;
+}
+.navbar__btn:hover a {
+  color: gray;
 }
 .registration,
 .loginform {
@@ -42,18 +60,35 @@ a {
   margin: auto;
   margin-top: 45px;
   padding: 20px 100px;
-}
-.registration input,
-.loginform input {
-  height: 30px;
-  width: 300px;
-  border-radius: 3px;
+  background-color: silver;
 }
 .registration__body,
 .loginform__body {
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  margin-top: 10px;
+}
+.registration__body__field input,
+.loginform__body__field input {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 30px;
+  width: 300px;
+  border-radius: 3px;
+  text-align: center;
+  border: 1px solid black;
+}
+.registration__body__field input:focus,
+.loginform__body__field input:focus {
+  border: 3px solid blue;
+}
+.registration__body__checkbox,
+.loginform__body__checkbox {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
 .registration__footer,
 .loginform__footer {
@@ -63,27 +98,36 @@ a {
 }
 .registration__footer__text,
 .loginform__footer__text {
-  margin-right: 10px;
+  margin-right: 3px;
 }
 .registration__btn,
 .loginform__btn {
   height: 30px;
-  background-color: #a9b68e;
+  background-color: grey;
   border-radius: 5px;
   color: white;
+  margin-top: 30px;
+  border: none;
+  transition: 200ms;
+  font-weight: 600;
+  border: 2px solid gray;
 }
-.registration__btn:hover,
-.loginform__btn:hover {
-  border: 3px solid #678585;
+.registration__btn[disabled],
+.loginform__btn[disabled] {
+  background-color: silver;
+  color: gray;
+}
+.registration__btn:hover:not([disabled]),
+.loginform__btn:hover:not([disabled]) {
+  border: none;
   color: white;
-  background-color: gray;
+  background-color: white;
+  transition: 200ms;
+  cursor: pointer;
+  color: gray;
+  border: 2px solid gray;
 }
 .registration a,
 .loginform a {
   color: #808080;
-}
-.my__input {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
 }

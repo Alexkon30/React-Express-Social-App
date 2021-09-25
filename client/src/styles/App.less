@@ -1,3 +1,5 @@
+@transition: 200ms;
+
 * {
   margin: 0;
   padding: 0;
@@ -6,6 +8,10 @@
 
 html {
   font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif
+}
+
+body {
+  background-image: url(./background.jpg);
 }
 
 a {
@@ -33,8 +39,26 @@ a {
     margin-left: 20px;
   }
 
-  &__login {
+  &__btn {
     margin-right: 20px;
+    border: 2px solid white;
+    border-radius: 6px;
+    transition: @transition;
+
+    a {
+      display: block;
+      height: 100%;
+      padding: 5px 20px;
+    }
+
+    &:hover {
+      background-color: white;
+      transition: @transition;
+
+      a {
+        color: gray;
+      }
+    }
   }
 }
 
@@ -49,17 +73,37 @@ a {
   margin: auto;
   margin-top: 45px;
   padding: 20px 100px;
+  background-color:silver;
 
-  & input {
-    height: 30px;
-    width: 300px;
-    border-radius: 3px;
-  }
+
 
   &__body {
     display: flex;
     flex-direction: column;
     align-items: stretch;
+    margin-top: 10px;
+
+    &__field input {
+      display: flex;
+      flex-direction: column;
+      align-items:flex-start;
+      height: 30px;
+      width: 300px;
+      border-radius: 3px;
+      text-align: center;
+      border: 1px solid black;
+
+      &:focus {
+        border: 3px solid blue;
+      }
+
+    }
+
+    &__checkbox {
+      display: flex;
+      align-items:center;
+      justify-content:space-evenly;
+    }
   }
 
   &__footer {
@@ -68,30 +112,39 @@ a {
     font-size: 12px;
 
     &__text {
-      margin-right: 10px;
+      margin-right: 3px;
     }
   }
 
   &__btn {
     height: 30px;
-    background-color: rgb(169, 182, 142);
+    background-color:grey;
     border-radius: 5px;
     color: white;
+    margin-top: 30px;
+    border: none;
+    transition: @transition;
+    font-weight: 600;
+    border: 2px solid gray;
 
-    &:hover {
-      border: 3px solid rgb(103, 133, 133);
+    &[disabled] {
+      background-color: silver;
+      color:gray;
+    }
+
+    &:hover:not([disabled]) {
+      border: none;
       color: white;
-      background-color: gray;
+      background-color: white;
+      transition: @transition;
+      cursor: pointer;
+      color: gray;
+      border: 2px solid gray;
+
     }
   }
 
   & a {
     color: grey
   }
-}
-
-.my__input {
-  display: flex;
-  flex-direction: column;
-  margin-bottom: 10px;
 }

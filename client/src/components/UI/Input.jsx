@@ -2,9 +2,9 @@ import React from 'react';
 
 function Input(props) {
   return (
-    <div className="my__input">
+    <div className={props.className}>
       <label htmlFor={props.name}>{props.label}</label>
-      <input type={props.type} name={props.name} />
+      <input {...props.input} name={props.name} />
     </div>
   )
 }

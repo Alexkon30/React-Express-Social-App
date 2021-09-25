@@ -3,12 +3,22 @@ import ModeContext from '../context/context';
 import { Link } from 'react-router-dom';
 
 function Loginfooter() {
-  const { setMode } = useContext(ModeContext);
+  const { setMode, setUser } = useContext(ModeContext);
 
   return (
     <div className="loginform__footer">
       <div className="loginform__footer__text">Don't have an account?</div>
-      <Link to="/register" onClick={() => setMode('register')}>Registration</Link>
+      <Link to="/register" onClick={() => {
+        //setMode('register')
+        setUser({
+          name: '',
+          email: '',
+          password: '',
+          confirmedPass: '',
+          agreement: false
+        })
+      }
+      }>Registration</Link>
     </div>
   )
 }

@@ -12,20 +12,19 @@ const Navbar = () => {
           <img src="logo_2.png" alt="logo" />
         </a>
       </div>
-      {mode === 'login'
-        ? <div
-          className="navbar__login"
-          onClick={() => setMode('register')}
-        >
-          <Link to="/register">Registration</Link>
-        </div>
-        : <div
-          className="navbar__login"
-          onClick={() => setMode('login')}
-        >
-          <Link to="/">Login</Link>
-        </div>
-      }
+      <div className="navbar__btn">
+        {mode === 'login'
+          ? <Link
+            to="/register"
+          //onClick={() => setMode('register')}
+          >Registration</Link>
+          : <Link
+            to="/"
+          //onClick={() => setMode('login')}
+          >Login</Link>
+        }
+      </div>
+
     </div>
   )
 }

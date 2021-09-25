@@ -9,11 +9,20 @@ import ModeContext from './context/context';
 
 function App() {
   const [mode, setMode] = useState('login');
+  const [user, setUser] = useState({
+    name: '',
+    email: '',
+    password: '',
+    confirmedPass: '',
+    agreement: false
+  })
 
   return (
     <ModeContext.Provider value={{
       mode,
-      setMode
+      setMode,
+      user,
+      setUser
     }}>
       <BrowserRouter>
         <Navbar />
