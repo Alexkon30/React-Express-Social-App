@@ -1,46 +1,88 @@
 import React, { useContext, useEffect } from 'react';
-import ModeContext from '../context/context';
-import Loginfooter from './Loginfooter';
+import GlobalContext from '../context/context';
+import Formfooter from './UI/Formfooter';
 import Input from './UI/Input';
+import axios from 'axios';
 
 function Loginform() {
-  const { user, setUser, setMode } = useContext(ModeContext);
 
-  useEffect(() => setMode('login'));
+  const { form, setForm, setMode, login } = useContext(GlobalContext);
+
+  const loginAxios = body => {
+    axios.post('http://localhost:5000/login', body)
+      .then(response => {
+        if (response.data.success) {
+          login(response.data.token)
+        }
+      })
+      .catch(err => console.log(err.response.data.message))
+  }
+
+  const loginFetch = body => {
+    fetch('http://localhost:5000/login', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+      .then(response => response.json())
+      .then(result => {
+        if (result.success) {
+          login(result.token)
+        }
+      })
+      .catch(err => console.log(err))
+  }
+
+  useEffect(() => {
+    setMode('login');
+    setForm({
+      username: '',
+      email: '',
+      password: '',
+      confirmedPass: '',
+      agreement: false
+    });
+  }, []);
 
 
   return (
     <div className="loginform">
-      <div className="loginform__header">
-        Login
-      </div>
+      <div className="loginform__header">Login</div>
       <div className="loginform__body">
         <Input
           input={{
             type: "text",
-            value: user.name,
-            onChange: (e) => setUser({ ...user, name: e.target.value }),
-            autoComplete: "off"
+            value: form.email,
+            onChange: (e) => setForm({ ...form, email: e.target.value }),
+            autoComplete: "off",
+            // autoFocus: true
           }}
-          label="Username or email"
-          name="user_name"
+          label="Email"
+          name="user_email"
           className="loginform__body__field"
         />
         <Input
           input={{
             type: "password",
-            value: user.password,
-            onChange: (e) => setUser({ ...user, password: e.target.value })
+            value: form.password,
+            onChange: (e) => setForm({ ...form, password: e.target.value })
           }}
           label="Password"
           name="user_password"
           className="loginform__body__field"
 
         />
-        <button className="loginform__btn" onClick={() => console.log(user)}>Login</button>
+        <button className="loginform__btn" onClick={() => loginAxios(form)}>Login</button>
 
       </div>
-      <Loginfooter />
+      <Formfooter
+        block="loginform"
+        text="Don't have an account?"
+        href="/register"
+        linkText="Registration"
+      />
     </div>
   )
 }

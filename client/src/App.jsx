@@ -1,45 +1,43 @@
-import React, { createContext, useState } from 'react';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import Userpage from './pages/Usergape';
+import React, { useEffect, useState } from 'react';
 import Navbar from './components/Navbar';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import './styles/App.css';
-import ModeContext from './context/context';
+import GlobalContext from './context/context';
+import useRoutes from './routes';
+import { useAuth } from './hooks/auth.hook';
 
 function App() {
   const [mode, setMode] = useState('login');
-  const [user, setUser] = useState({
-    name: '',
+  const [form, setForm] = useState({
+    username: '',
     email: '',
     password: '',
     confirmedPass: '',
     agreement: false
   })
+  //const [isAuth, setIsAuth] = useState(false);
+  const { login, logout, token } = useAuth();
+  //userId 
+
+
+  // useEffect(() => {
+  //   setIsAuth(!!token)
+  // }, [token])
+  const isAuth = !!token;
+  const routes = useRoutes(isAuth);
+
 
   return (
-    <ModeContext.Provider value={{
-      mode,
-      setMode,
-      user,
-      setUser
+    <GlobalContext.Provider value={{
+      mode, setMode,
+      form, setForm,
+      login, logout, token, isAuth // userId
     }}>
-      <BrowserRouter>
+      <Router>
         <Navbar />
-        <Switch>
-          <Route exact path="/">
-            <Login />
-          </Route>
-          <Route path="/register">
-            <Register />
-          </Route>
-          <Route path="/user">
-            <Userpage />
-          </Route>
-          <Redirect to="/" />
-        </Switch>
-      </BrowserRouter>
-    </ModeContext.Provider>
+        {routes}
+      </Router>
+    </GlobalContext.Provider>
   );
 }
 

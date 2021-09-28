@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const ModeContext = createContext(null);
+const GlobalContext = createContext();
 
-export default ModeContext;
+export default GlobalContext;

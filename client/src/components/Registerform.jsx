@@ -1,25 +1,61 @@
 import React, { useContext, useEffect } from 'react';
 import Input from './UI/Input'
-import Registerfooter from './Registerfooter';
-import ModeContext from '../context/context';
+import GlobalContext from '../context/context';
+import axios from 'axios';
+import Formfooter from './UI/Formfooter';
 
 function Registerform() {
-  const { user, setUser, setMode } = useContext(ModeContext)
+  const { form, setForm, setMode, login } = useContext(GlobalContext)
 
-  // ???
-  useEffect(() => setMode('register'));
-  //
+  useEffect(() => {
+    setMode('register');
+    setForm({
+      username: '',
+      email: '',
+      password: '',
+      confirmedPass: '',
+      agreement: false
+    });
+  }, []);
+
+  const registerAxios = body => {
+    axios.post('http://localhost:5000/register', body)
+      .then(response => {
+        if (response.data.success) {
+          login(response.data.token)
+        }
+        //добавить логику для отображения ошибок
+      })
+      .catch(err => console.log(err.response.data.message))
+  }
+
+  const registerFetch = (body) => {
+    fetch('http://localhost:5000/register', {
+      method: "POST",
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body)
+    })
+      .then(response => response.json())
+      .then(result => console.log(result.message))
+      .catch(err => console.log(err))
+  }
 
   return (
     <div className="registration">
       <div className="registration__header">Registration</div>
       <div className="registration__body">
+        <form action="">
+
+        </form>
         <Input
           input={{
             type: "text",
-            value: user.name,
-            onChange: (e) => setUser({ ...user, name: e.target.value }),
-            autoComplete: "off"
+            value: form.username,
+            onChange: (e) => setForm({ ...form, username: e.target.value }),
+            autoComplete: "off",
+            // autoFocus: true
           }}
           label="Username"
           name="user_name"
@@ -28,8 +64,8 @@ function Registerform() {
         <Input
           input={{
             type: "text",
-            value: user.email,
-            onChange: (e) => setUser({ ...user, email: e.target.value }),
+            value: form.email,
+            onChange: (e) => setForm({ ...form, email: e.target.value }),
             autoComplete: "off"
           }}
           label="Email"
@@ -39,8 +75,8 @@ function Registerform() {
         <Input
           input={{
             type: "password",
-            value: user.password,
-            onChange: (e) => setUser({ ...user, password: e.target.value }),
+            value: form.password,
+            onChange: (e) => setForm({ ...form, password: e.target.value }),
           }}
           label="Password"
           name="user_password"
@@ -49,8 +85,8 @@ function Registerform() {
         <Input
           input={{
             type: "password",
-            value: user.confirmedPass,
-            onChange: (e) => setUser({ ...user, confirmedPass: e.target.value }),
+            value: form.confirmedPass,
+            onChange: (e) => setForm({ ...form, confirmedPass: e.target.value }),
           }}
           label="Confirm password"
           name="user_password_confirm"
@@ -59,18 +95,24 @@ function Registerform() {
         <Input
           input={{
             type: "checkbox",
-            value: user.agreement,
-            onChange: (e) => setUser({ ...user, agreement: e.target.checked })
+            value: form.agreement,
+            onChange: (e) => setForm({ ...form, agreement: e.target.checked })
           }}
           label="Agree with our terms and policies"
           className="loginform__body__checkbox"
         />
         <button
-          disabled={!user.agreement}
+          disabled={!form.agreement}
           className="registration__btn"
-          onClick={() => console.log(user)}>Register</button>
+          onClick={() => registerAxios(form)}>Register
+        </button>
       </div>
-      <Registerfooter />
+      <Formfooter
+        block="registration"
+        text="Already have an account?"
+        href="/login"
+        linkText="Login"
+      />
     </div>
   )
 }

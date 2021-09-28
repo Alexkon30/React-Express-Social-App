@@ -1,24 +1,11 @@
-import React, { useContext } from 'react';
-import ModeContext from '../context/context';
+import React from 'react';
 import { Link } from 'react-router-dom';
 
 function Loginfooter() {
-  const { setMode, setUser } = useContext(ModeContext);
-
   return (
     <div className="loginform__footer">
       <div className="loginform__footer__text">Don't have an account?</div>
-      <Link to="/register" onClick={() => {
-        //setMode('register')
-        setUser({
-          name: '',
-          email: '',
-          password: '',
-          confirmedPass: '',
-          agreement: false
-        })
-      }
-      }>Registration</Link>
+      <Link to="/register">Registration</Link>
     </div>
   )
 }

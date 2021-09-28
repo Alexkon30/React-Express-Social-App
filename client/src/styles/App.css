@@ -20,7 +20,7 @@ a {
   border-radius: 2px;
   display: flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
 }
 .navbar img {
   height: 70px;
@@ -33,14 +33,16 @@ a {
 }
 .navbar__btn {
   margin-right: 20px;
-  border: 2px solid white;
+  border: 2px solid gray;
   border-radius: 6px;
   transition: 200ms;
+  background-color: silver;
 }
 .navbar__btn a {
   display: block;
   height: 100%;
   padding: 5px 20px;
+  color: gray;
 }
 .navbar__btn:hover {
   background-color: white;
@@ -62,6 +64,10 @@ a {
   padding: 20px 100px;
   background-color: silver;
 }
+.registration__header,
+.loginform__header {
+  font-size: 20px;
+}
 .registration__body,
 .loginform__body {
   display: flex;
@@ -69,26 +75,32 @@ a {
   align-items: stretch;
   margin-top: 10px;
 }
+.registration__body__field,
+.loginform__body__field {
+  margin-bottom: 10px;
+}
 .registration__body__field input,
 .loginform__body__field input {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   height: 30px;
-  width: 300px;
-  border-radius: 3px;
+  min-width: 300px;
+  border-radius: 5px;
   text-align: center;
-  border: 1px solid black;
+  border: 1px solid gray;
 }
 .registration__body__field input:focus,
 .loginform__body__field input:focus {
-  border: 3px solid blue;
+  border: 2px solid gray;
+  outline: none;
 }
 .registration__body__checkbox,
 .loginform__body__checkbox {
   display: flex;
   align-items: center;
   justify-content: space-evenly;
+  margin-top: 30px;
 }
 .registration__footer,
 .loginform__footer {
@@ -106,7 +118,7 @@ a {
   background-color: grey;
   border-radius: 5px;
   color: white;
-  margin-top: 30px;
+  margin-top: 20px;
   border: none;
   transition: 200ms;
   font-weight: 600;
