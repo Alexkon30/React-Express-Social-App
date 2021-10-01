@@ -3,7 +3,9 @@ import path from 'path';
 import mongoose from 'mongoose';
 import config from 'config';
 import mainRouter from './routes/mainRouter.js'
+import userRouter from './routes/userRouter.js'
 import corsMiddleware from './middleware/cors.middleware.js'
+//import authmiddleware from './middleware/auth.middleware.js'
 
 //import expressSession from 'express-session';
 //import cookieParser from 'cookie-parser';
@@ -19,6 +21,11 @@ app.use(corsMiddleware)
   .use(express.json())
   .use(express.urlencoded({ extended: true }))
   .use('/', mainRouter)
+  .use('/user', userRouter)
+
+//.use('/user', authmiddleware, userRouter)
+//.use(authmiddleware)
+
 
 //app.use(cookieParser(config.get('secret')))
 // app.use(expressSession({

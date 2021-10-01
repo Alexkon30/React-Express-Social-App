@@ -143,3 +143,60 @@ a {
 .loginform a {
   color: #808080;
 }
+.aside {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+.aside__link {
+  padding: 7px 30px;
+  border: 1px solid gray;
+  width: 100%;
+  color: gray;
+  background-color: silver;
+  border-top-left-radius: 7px;
+  border-bottom-left-radius: 7px;
+  margin-bottom: 5px;
+  transition: 200ms;
+}
+.aside__link.active {
+  border-right: none;
+}
+.aside__link:hover {
+  background-color: white;
+  transition: 200ms;
+}
+.container {
+  display: flex;
+  margin-top: 5px;
+}
+.content {
+  padding-left: 15px;
+  background-color: silver;
+  width: 100%;
+  height: 500px;
+}
+.user__header {
+  width: 100%;
+  border: 1px solid red;
+  display: flex;
+}
+.user__description {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.user__name {
+  border: 1px solid green;
+}
+.user__biography {
+  border: 1px solid blue;
+  height: 100%;
+}
+.user__photo {
+  width: 100px;
+  height: 100px;
+}
+.user__wall {
+  border: 1px solid yellow;
+}

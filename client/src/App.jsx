@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import Navbar from './components/Navbar';
+import React, { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import './styles/App.css';
+import { useAuth } from './hooks/auth.hook';
+import Navbar from './components/Navbar';
 import GlobalContext from './context/context';
 import useRoutes from './routes';
-import { useAuth } from './hooks/auth.hook';
+import './styles/App.css';
 
 function App() {
   const [mode, setMode] = useState('login');
@@ -15,14 +15,8 @@ function App() {
     confirmedPass: '',
     agreement: false
   })
-  //const [isAuth, setIsAuth] = useState(false);
   const { login, logout, token } = useAuth();
-  //userId 
 
-
-  // useEffect(() => {
-  //   setIsAuth(!!token)
-  // }, [token])
   const isAuth = !!token;
   const routes = useRoutes(isAuth);
 
@@ -31,7 +25,8 @@ function App() {
     <GlobalContext.Provider value={{
       mode, setMode,
       form, setForm,
-      login, logout, token, isAuth // userId
+      login, logout, token, isAuth,
+      // userId
     }}>
       <Router>
         <Navbar />

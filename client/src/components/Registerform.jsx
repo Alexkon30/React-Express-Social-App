@@ -16,6 +16,7 @@ function Registerform() {
       confirmedPass: '',
       agreement: false
     });
+    // eslint-disable-next-line
   }, []);
 
   const registerAxios = body => {
@@ -29,6 +30,7 @@ function Registerform() {
       .catch(err => console.log(err.response.data.message))
   }
 
+  // eslint-disable-next-line
   const registerFetch = (body) => {
     fetch('http://localhost:5000/register', {
       method: "POST",

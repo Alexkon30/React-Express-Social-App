@@ -18,6 +18,7 @@ function Loginform() {
       .catch(err => console.log(err.response.data.message))
   }
 
+  // eslint-disable-next-line
   const loginFetch = body => {
     fetch('http://localhost:5000/login', {
       method: "POST",
@@ -44,6 +45,7 @@ function Loginform() {
       confirmedPass: '',
       agreement: false
     });
+    // eslint-disable-next-line
   }, []);
 
 
