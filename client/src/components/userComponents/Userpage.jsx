@@ -1,29 +1,38 @@
-import React, { useState, useContext, useEffect } from 'react'
+import React, { useState, useContext, useCallback, useEffect } from 'react'
 import Loader from './Loader'
 import axios from 'axios'
 import GlobalContext from '../../context/context'
+import { Link } from 'react-router-dom'
+import Userwall from './Userwall'
+import WallPostForm from './WallPostForm'
 
-function Userpage() {
+function UserPage() {
   const { logout } = useContext(GlobalContext)
 
-  // eslint-disable-next-line
   const [user, setUser] = useState({
-    name: 'Name',
-    biography: 'Biography'
+    name: '',
+    surname: '',
+    biography: '',
+    birthday: '',
+    posts: [],
   });
   const [isLoad, setIsLoad] = useState(false)
 
-  // useEffect(() => {
-  //   userAxios()
-  // }, [])
+  useEffect(() => {
+    console.log('useEF')
+    userAxios()
+  }, [])
+
+
 
   const userAxios = () => {
     setIsLoad(true)
+    let token = localStorage.getItem('token')
 
     axios({
       url: 'http://localhost:5000/user/',
       method: 'get',
-      headers: { 'Authorization': `Bearer ${JSON.parse(localStorage.getItem('userData')).token}` },
+      headers: { 'Authorization': `Bearer ${token}` },
     })
       .then(response => {
         //console.log(response.data)
@@ -31,13 +40,16 @@ function Userpage() {
           logout()
         }
 
-        setTimeout(() => {
-          setIsLoad(false)
-        }, 1000)
-
+        setUser(response.data.user)
+        setIsLoad(false)
       })
       .catch(err => console.log(err.response))
   }
+
+  // useCallback(() => {
+  //   console.log('useCB')
+  //   userAxios()
+  // }, [userAxios])
 
   if (isLoad) {
     return (
@@ -50,15 +62,17 @@ function Userpage() {
       <div className="user__header">
         <div className="user__photo">Photo</div>
         <div className="user__description">
-          <div className="user__name">user.name</div>
-          <div className="user__biography">user.biography</div>
-          <div className="user__change">Change btn</div>
+          <div className="user__name">{user.name} {user.surname}</div>
+          <div className="user__biography">{user.biography}</div>
+          <div className="user__birthday">{user.birthday}</div>
+          <Link to="/settings" className="user__change">Change user info</Link>
         </div>
       </div>
-      <div className="user__wall">Wall</div>
-      <button onClick={userAxios}>Test</button>
+      <WallPostForm user={user} setUser={setUser} />
+      <Userwall posts={user.posts} />
+      {/* <button onClick={userAxios}>Test</button> */}
     </div>
   )
 }
 
-export default Userpage
+export default UserPage

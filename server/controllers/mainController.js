@@ -70,6 +70,7 @@ class mainController {
     const token = jwt.sign({ id: user.id }, config.get('secret'), { expiresIn: '1h' })
     return res.json({
       success: true,
+
       token
     })
   }

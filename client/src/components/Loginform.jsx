@@ -11,30 +11,31 @@ function Loginform() {
   const loginAxios = body => {
     axios.post('http://localhost:5000/login', body)
       .then(response => {
+        console.log(response)
         if (response.data.success) {
-          login(response.data.token)
+          login(response.data.token, response.data.user)
         }
       })
       .catch(err => console.log(err.response.data.message))
   }
 
   // eslint-disable-next-line
-  const loginFetch = body => {
-    fetch('http://localhost:5000/login', {
-      method: "POST",
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(body)
-    })
-      .then(response => response.json())
-      .then(result => {
-        if (result.success) {
-          login(result.token)
-        }
-      })
-      .catch(err => console.log(err))
-  }
+  // const loginFetch = body => {
+  //   fetch('http://localhost:5000/login', {
+  //     method: "POST",
+  //     headers: {
+  //       'Content-Type': 'application/json'
+  //     },
+  //     body: JSON.stringify(body)
+  //   })
+  //     .then(response => response.json())
+  //     .then(result => {
+  //       if (result.success) {
+  //         login(result.token, result.user)
+  //       }
+  //     })
+  //     .catch(err => console.log(err))
+  // }
 
   useEffect(() => {
     setMode('login');
