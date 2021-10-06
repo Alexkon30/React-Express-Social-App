@@ -3,58 +3,62 @@ import PostInput from '../UI/PostInput'
 import axios from 'axios'
 import GlobalContext from '../../context/context'
 
-function WallPostForm(props) {
+function WallPostForm({ user, setUser }) {
   // console.log(props.user)
   const { logout } = useContext(GlobalContext)
-  const [description, setDescription] = useState('')
+  //const [description, setDescription] = useState('')
+  const description = React.useRef()
 
   const sendPost = () => {
-    console.log('description: ', description)
-
     axios({
       url: 'http://localhost:5000/user/sendPost',
       method: 'post',
       headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-      data: { description }
+      data: {
+        description: description.current.innerText
+      }
     })
       .then(response => {
-        //console.log(response.data)
-        if (response.data.success === false) {
+        if (response.data.authError === true) {
           logout()
         }
-        console.log('response: ', response)
-        console.log('props.user: ', props.user)
 
-        let copy = JSON.parse(JSON.stringify(props.user))
-
-        //косяк где то тут
-        props.setUser({
-          ...copy,
-          posts: [...copy.posts, {
-            author: JSON.parse(localStorage.getItem('user')).userName,
-            date: Date.now(), //now на клиенте и на сервере будут отличаться
-            content: description
-          }]
-        })
-
-        //TODO
+        if (response.data.success === false) {
+          alert('someone is false')
+        } else if (response.data.success === true) {
+          let copy = JSON.parse(JSON.stringify(user))
+          setUser({
+            ...copy,
+            posts: [...copy.posts, {
+              author: JSON.parse(localStorage.getItem('userData')).username,
+              date: Date.now(),
+              content: description.current.innerText,
+              id: response.data.postId
+            }]
+          })
+          description.current.innerText = ''
+        }
       })
       .catch(err => console.log(err.response))
   }
 
   return (
     <div className="post__form">
-      <PostInput
-        type="text"
-        value={description}
-        onChange={(e) => setDescription(e.target.value)}
-        autoComplete="off"
-        className="loginform__body__field"
+      <div
+        contentEditable='true'
+        role='textbox'
+        aria-multiline='true'
+        ref={description}
+        placeholder='test'
+        // value={description}
+        // onChange={(e) => setDescription(e.target.value)}
+        className="post__form__field"
       />
       <PostInput
         type="button"
         value="Send post"
         onClick={sendPost}
+        className="post__form__btn"
       />
     </div>
   )

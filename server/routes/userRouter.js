@@ -6,5 +6,7 @@ const userRouter = new Router();
 
 userRouter.get('/', authmiddleware, userController.getMainInfo)
 userRouter.post('/sendPost', authmiddleware, userController.sendPost)
+userRouter.post('/deletePost', authmiddleware, userController.deletePost)
+userRouter.get('/people', authmiddleware, userController.getPeople)
 
 export default userRouter;

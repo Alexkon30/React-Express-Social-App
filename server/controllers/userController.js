@@ -48,7 +48,8 @@ class userController {
           user.posts.push({
             content: post.content,
             author: author.name,
-            date: post.date
+            date: post.date,
+            id: post.id
           })
         }
 
@@ -69,7 +70,7 @@ class userController {
   }
 
   async sendPost(req, res) {
-
+    //console.log(req.body)
     //создать пустой пост 
     let post = {}
 
@@ -88,12 +89,37 @@ class userController {
         //   content: result.content
         // }
 
-        console.log(result)
-        res.json({ success: true })
+        //console.log(result)
+        res.json({ success: true, postId: result.id })
       })
       .catch(err => {
         console.log(err)
         res.json({ success: false, message: err.message })
+      })
+  }
+
+  async deletePost(req, res) {
+    WallPost.findByIdAndDelete(req.body.postId)
+      .then(result => {
+        res.json({ success: true, message: 'Post was deleted successfully' })
+
+      })
+      .catch(err => res.json({ success: false, message: err.message }))
+  }
+
+  async getPeople(req, res) {
+    User.find({})
+      .then(result => {
+        let users = result
+          .filter(user => user.id !== req.userId)
+          .map(user => {
+            return {
+              name: user.name,
+              surname: user.surname,
+              //avatar: user.avatar
+            }
+          })
+        res.json({ success: true, users })
       })
   }
 

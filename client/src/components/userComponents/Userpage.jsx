@@ -1,29 +1,20 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import Loader from './Loader'
 import axios from 'axios'
 import GlobalContext from '../../context/context'
 import { Link } from 'react-router-dom'
 import Userwall from './Userwall'
 import WallPostForm from './WallPostForm'
+import UserContext from '../../context/UserContext'
 
 function UserPage() {
   const { logout } = useContext(GlobalContext)
+  const { user, setUser, isLoad, setIsLoad } = useContext(UserContext)
 
-  const [user, setUser] = useState({
-    name: '',
-    surname: '',
-    biography: '',
-    birthday: '',
-    posts: [],
-  });
-  const [isLoad, setIsLoad] = useState(false)
 
   useEffect(() => {
-    console.log('useEF')
     userAxios()
   }, [])
-
-
 
   const userAxios = () => {
     setIsLoad(true)
@@ -43,34 +34,29 @@ function UserPage() {
         setUser(response.data.user)
         setIsLoad(false)
       })
-      .catch(err => console.log(err.response))
-  }
-
-  // useCallback(() => {
-  //   console.log('useCB')
-  //   userAxios()
-  // }, [userAxios])
-
-  if (isLoad) {
-    return (
-      <Loader />
-    )
+      .catch(err => {
+        console.log(err)
+        logout()
+      })
   }
 
   return (
     <div className="content">
-      <div className="user__header">
-        <div className="user__photo">Photo</div>
-        <div className="user__description">
-          <div className="user__name">{user.name} {user.surname}</div>
-          <div className="user__biography">{user.biography}</div>
-          <div className="user__birthday">{user.birthday}</div>
-          <Link to="/settings" className="user__change">Change user info</Link>
+      {isLoad ?
+        <Loader />
+        : <><div className="user__header">
+          <div className="user__photo">Photo</div>
+          <div className="user__description">
+            <div className="user__name">{user.name} {user.surname}</div>
+            <div className="user__biography">{user.biography}</div>
+            <div className="user__birthday">{user.birthday}</div>
+            <Link to="/settings" className="user__change">Change user info</Link>
+          </div>
         </div>
-      </div>
-      <WallPostForm user={user} setUser={setUser} />
-      <Userwall posts={user.posts} />
-      {/* <button onClick={userAxios}>Test</button> */}
+          <WallPostForm user={user} setUser={setUser} />
+          <Userwall posts={user.posts} />
+        </>
+      }
     </div>
   )
 }

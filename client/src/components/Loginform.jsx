@@ -13,10 +13,10 @@ function Loginform() {
       .then(response => {
         console.log(response)
         if (response.data.success) {
-          login(response.data.token, response.data.user)
+          login(response.data.token, JSON.stringify({ username: response.data.username }))
         }
       })
-      .catch(err => console.log(err.response.data.message))
+      .catch(err => console.log(err))
   }
 
   // eslint-disable-next-line

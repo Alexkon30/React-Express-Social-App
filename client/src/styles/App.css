@@ -14,7 +14,6 @@ a {
   color: whitesmoke;
 }
 .navbar {
-  border: 1px solid black;
   background-color: gray;
   height: 70px;
   border-radius: 2px;
@@ -169,12 +168,18 @@ a {
 .container {
   display: flex;
   margin-top: 5px;
+  justify-content: center;
+  min-width: 5rem;
 }
 .content {
   padding-left: 15px;
   background-color: silver;
-  width: 100%;
-  height: 500px;
+  height: min-content;
+  width: 800px;
+  padding-right: 15px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 .user__header {
   width: 100%;
@@ -199,4 +204,74 @@ a {
 }
 .user__wall {
   border: 1px solid yellow;
+  padding: 10px;
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: stretch;
+}
+.post {
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid blue;
+  background-color: white;
+  border-radius: 4px;
+  width: 700px;
+}
+.post__remove {
+  color: blue;
+}
+.post__remove:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.post__form {
+  display: flex;
+  flex-direction: column;
+  height: min-content;
+  align-items: center;
+  background-color: white;
+}
+.post__form__field {
+  padding: 20px;
+  width: 700px;
+  border: none;
+  background-color: white;
+  font-size: 12px;
+  border: 1px solid red;
+}
+.post__form__field:focus {
+  outline: none;
+}
+.post__form__btn {
+  width: 200px;
+  height: 40px;
+  margin-right: 20px;
+  border: 2px solid gray;
+  border-radius: 6px;
+  transition: 200ms;
+  background-color: silver;
+}
+.post__form__btn:hover {
+  background-color: white;
+  transition: 200ms;
+}
+.post__header {
+  margin-bottom: 5px;
+  margin: 0 30px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+.post__content {
+  margin-bottom: 5px;
+  font-size: 15px;
+}
+.post__footer {
+  font-size: 10px;
+  display: flex;
+  justify-content: center;
+}
+.post__date {
+  font-size: 10px;
 }
