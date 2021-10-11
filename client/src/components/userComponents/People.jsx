@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import Loader from './Loader'
 import GlobalContext from '../../context/context'
 import UserContext from '../../context/UserContext'
@@ -6,11 +6,11 @@ import axios from 'axios'
 import Person from '../UI/Person'
 
 function People() {
-  const { logout } = React.useContext(GlobalContext)
-  const { isLoad, setIsLoad } = React.useContext(UserContext)
-  const [people, setPeople] = React.useState([])
+  const { logout } = useContext(GlobalContext)
+  const { isLoad, setIsLoad } = useContext(UserContext)
+  const [people, setPeople] = useState([])
 
-  React.useEffect(() => {
+  useEffect(() => {
     usersAxios()
   }, [])
 
@@ -30,7 +30,9 @@ function People() {
           logout()
         }
         setPeople(response.data.users)
-        setIsLoad(false)
+        setInterval(() => {
+          setIsLoad(false)
+        }, 500)
       })
       .catch(err => {
         console.log(err.response.data.message)
@@ -46,7 +48,7 @@ function People() {
           <div className="search">
             search..
           </div>
-          <div className="friends__list">
+          <div className="people__list">
             {people.length
               ? people.map((person, index) => <Person key={index} {...person} />)
               : <div>No people</div>}

@@ -1,19 +1,10 @@
 import User from '../models/User.js';
 import WallPost from '../models/WallPost.js';
-// import bcrypt from 'bcrypt';
-// import jwt from 'jsonwebtoken';
-// import config from 'config';
 
-
-// const generateAccessToken = (id) => {
-//   const payload = { id }
-//   return jwt.sign(payload, config.secret, { expiresIn: '1h' });
-// }
 
 
 class userController {
   async getMainInfo(req, res) {
-    // console.log('req.userId: ', req.userId)
 
     //создаем пустого пользователя для наполнения данными
     let user = {}
@@ -27,7 +18,11 @@ class userController {
           name: result.name,
           surname: result.surname,
           birthday: result.birthday,
-          biography: result.biography
+          biography: result.biography,
+          dateOfRegistration: result.dateOfRegistration,
+          friends: result.friends,
+          dialogs: result.dialogs,
+          posts: []
         }
       })
       .catch(err => console.log(err))
@@ -37,12 +32,10 @@ class userController {
     await WallPost.find({ wallOwnerId: req.userId })
       .then(async result => {
         //создаем свойство с пустым массивом
-        user.posts = [];
-
+        // user.posts = [];
         //пройтись по всем найденным постам и сформировать массив постов
         //для отображения на клиенте
         for (let post of result) {
-
           //поиск автора поста по id, который есть в схеме поста
           const author = await User.findById(post.authorId)
           user.posts.push({
@@ -52,25 +45,12 @@ class userController {
             id: post.id
           })
         }
-
-
-        // user.posts = result.map(async post => {
-        //   const author = await User.findById(post.authorId)
-        //   return {
-        //     content: post.content,
-        //     author: author.name,
-        //     date: post.date
-        //   }
-        // })
       })
       .catch(err => console.log(err))
-
-    //console.log(user)
     res.json({ success: true, user })
   }
 
   async sendPost(req, res) {
-    //console.log(req.body)
     //создать пустой пост 
     let post = {}
 
@@ -81,15 +61,6 @@ class userController {
       wallOwnerId: req.userId
     })
       .then(result => {
-        // const user = await User.findById(result.authorId)
-
-        // post = {
-        //   author: user.name,
-        //   date: result.date,
-        //   content: result.content
-        // }
-
-        //console.log(result)
         res.json({ success: true, postId: result.id })
       })
       .catch(err => {
@@ -102,7 +73,6 @@ class userController {
     WallPost.findByIdAndDelete(req.body.postId)
       .then(result => {
         res.json({ success: true, message: 'Post was deleted successfully' })
-
       })
       .catch(err => res.json({ success: false, message: err.message }))
   }
@@ -123,12 +93,68 @@ class userController {
       })
   }
 
+  async getSettings(req, res) {
+    User.findById(req.userId)
+      .then(result => {
+        let user = {
+          name: result.name,
+          surname: result.surname,
+          birthday: result.birthday,
+          biography: result.biography,
+          dateOfRegistration: result.dateOfRegistration
+        }
+        res.json({ success: true, user })
+      })
+      .catch(err => res.json({ success: false, message: err.message }))
+  }
+
+  async setSettings(req, res) {
+    User.findByIdAndUpdate(req.userId, {
+      name: req.body.name,
+      surname: req.body.surname,
+      birthday: req.body.birthday,
+      biography: req.body.biography
+    })
+      .then(result => {
+        res.json({ success: true })
+      })
+      .catch(err => res.json({ success: false, message: err.message }))
+  }
+
+  // async getFriends(req, res) {
+  //   User.findById(req.userId)
+  //     .then(async result => {
+  //       let friends = []
+  //       for (let id of result.friends) {
+  //         let friend = await User.findById(id)
+  //         friends.push({
+  //           name: friend.name,
+  //           surname: friend.surname,
+  //           //avatar: friend.avatar
+  //         })
+  //       }
+  //       res.json({ success: true, friends })
+  //     })
+  //     .catch(err => res.json({ success: false, message: err.message }))
+  // }
+
+  async getDialogues(req, res) {
+    User.findById(req.userId)
+      .then(async result => {
+        let dialogues = []
+        for (let id of result.friends) {
+          let friend = await User.findById(id)
+          dialogues.push({
+            name: friend.name,
+            surname: friend.surname,
+            //lastMessage: 
+            //avatar: friend.avatar
+          })
+        }
+        res.json({ success: true, dialogues })
+      })
+      .catch(err => res.json({ success: false, message: err.message }))
+  }
 }
 
 export default new userController();
-
-
-// const token = generateAccessToken(user.id);
-// res.cookie('token', token, {
-//   httpOnly: true,
-// });

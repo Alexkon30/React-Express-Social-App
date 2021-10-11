@@ -8,5 +8,10 @@ userRouter.get('/', authmiddleware, userController.getMainInfo)
 userRouter.post('/sendPost', authmiddleware, userController.sendPost)
 userRouter.post('/deletePost', authmiddleware, userController.deletePost)
 userRouter.get('/people', authmiddleware, userController.getPeople)
+userRouter.get('/settings', authmiddleware, userController.getSettings)
+userRouter.post('/settings', authmiddleware, userController.setSettings)
+//userRouter.get('/friends', authmiddleware, userController.getFriends)
+userRouter.get('/dialogues', authmiddleware, userController.getDialogues)
+
 
 export default userRouter;

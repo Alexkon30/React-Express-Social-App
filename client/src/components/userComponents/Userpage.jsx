@@ -27,12 +27,14 @@ function UserPage() {
     })
       .then(response => {
         //console.log(response.data)
-        if (response.data.success === false) {
+        if (response.data.authError === true) {
           logout()
         }
 
         setUser(response.data.user)
-        setIsLoad(false)
+        setInterval(() => {
+          setIsLoad(false)
+        }, 1500)
       })
       .catch(err => {
         console.log(err)

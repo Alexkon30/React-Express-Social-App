@@ -11,7 +11,7 @@ function Loginform() {
   const loginAxios = body => {
     axios.post('http://localhost:5000/login', body)
       .then(response => {
-        console.log(response)
+        // console.log(response)
         if (response.data.success) {
           login(response.data.token, JSON.stringify({ username: response.data.username }))
         }

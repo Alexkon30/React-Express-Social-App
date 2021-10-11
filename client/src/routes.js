@@ -20,6 +20,7 @@ function useRoutes(isAuth) {
     biography: '',
     birthday: '',
     posts: [],
+    friends: []
   });
   const [isLoad, setIsLoad] = useState(false)
 
