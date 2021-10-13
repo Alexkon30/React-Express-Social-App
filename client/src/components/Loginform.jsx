@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import GlobalContext from '../context/context';
+import GlobalContext from '../context/GlobalContext';
 import Formfooter from './UI/Formfooter';
 import Input from './UI/Input';
 import axios from 'axios';
@@ -78,7 +78,6 @@ function Loginform() {
 
         />
         <button className="loginform__btn" onClick={() => loginAxios(form)}>Login</button>
-
       </div>
       <Formfooter
         block="loginform"

@@ -1,20 +1,22 @@
 import express from 'express';
-import path from 'path';
 import mongoose from 'mongoose';
 import config from 'config';
 import mainRouter from './routes/mainRouter.js'
 import userRouter from './routes/userRouter.js'
 import corsMiddleware from './middleware/cors.middleware.js'
+import { Server } from 'socket.io'
+import { createServer } from 'http'
 //import authmiddleware from './middleware/auth.middleware.js'
 
 //import expressSession from 'express-session';
 //import cookieParser from 'cookie-parser';
 //import flash from 'connect-flash';
 
-const app = express();
-const URL = config.get('dbUrl');
-//const __dirname = path.resolve();
-const PORT = config.get('serverPort');
+const app = express()
+const httpServer = createServer(app)
+const io = new Server(httpServer)
+const URL = config.get('dbUrl')
+const PORT = config.get('serverPort')
 
 
 app.use(corsMiddleware)
@@ -47,7 +49,7 @@ mongoose.connect(URL, {
   useNewUrlParser: true,
 }).then(
   () => {
-    app.listen(PORT, () => {
+    httpServer.listen(PORT, () => {
       console.log(`server started on ${PORT}`);
     })
   }

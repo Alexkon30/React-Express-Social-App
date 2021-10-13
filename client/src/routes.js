@@ -11,6 +11,7 @@ import Settings from './components/userComponents/Settings'
 import People from './components/userComponents/People'
 
 import UserContext from './context/UserContext'
+import Client from './components/userComponents/Client'
 
 
 function useRoutes(isAuth) {
@@ -19,9 +20,16 @@ function useRoutes(isAuth) {
     surname: '',
     biography: '',
     birthday: '',
+    dateOfRegistration: '',
+    dialogues: [],
     posts: [],
     friends: []
   });
+  const [client, setClient] = useState({
+    name: '',
+    surname: '',
+    id: ''
+  })
   const [isLoad, setIsLoad] = useState(false)
 
   if (isAuth) {
@@ -30,13 +38,14 @@ function useRoutes(isAuth) {
         <Aside />
         <Switch>
           <UserContext.Provider value={{
-            user, setUser, isLoad, setIsLoad
+            user, setUser, isLoad, setIsLoad, client, setClient
           }}>
-            <Route path="/user" component={UserPage} />
-            <Route path="/people" component={People} />
+            <Route path="/user" exact component={UserPage} />
+            <Route path="/people" exact component={People} />
             <Route path="/friends" component={Friends} />
             <Route path="/messages" component={Messages} />
             <Route path="/settings" component={Settings} />
+            <Route path="/people/:id" component={Client} />
             <Redirect to="/user" />
           </UserContext.Provider>
         </Switch>

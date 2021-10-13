@@ -1,12 +1,14 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useContext, useState } from 'react'
 import Loader from './Loader'
 import axios from 'axios'
-import GlobalContext from '../../context/context'
+import GlobalContext from '../../context/GlobalContext'
 import Input from '../UI/Input'
+import UserContext from '../../context/UserContext'
 
 function Settings() {
   const { logout } = useContext(GlobalContext)
-  const [user, setUser] = useState({
+  const { user, setUser, isLoad, setIsLoad } = useContext(UserContext)
+  const [userInfo, setUserInfo] = useState({
     name: '',
     surname: '',
     birthday: '',
@@ -14,43 +16,41 @@ function Settings() {
     dateOfRegistration: '',
     //avatar: ''
   })
-  const [isLoad, setIsLoad] = useState(false)
 
   useEffect(() => {
-    fetchInfo()
+    setUserInfo({
+      name: user.name,
+      surname: user.surname,
+      birthday: user.birthday,
+      biography: user.biography,
+      dateOfRegistration: user.dateOfRegistration
+    })
   }, [])
 
-  const fetchInfo = () => {
-    setIsLoad(true)
-    let token = localStorage.getItem('token')
-
-    axios({
-      url: 'http://localhost:5000/user/settings',
-      method: 'get',
-      headers: { 'Authorization': `Bearer ${token}` },
-    })
-      .then(response => {
-        //console.log(response.data)
-        if (response.data.authError === true) {
-          logout()
-        }
-
-        setUser({
-          name: response.data.user.name,
-          surname: response.data.user.surname,
-          birthday: response.data.user.birthday,
-          biography: response.data.user.biography,
-          dateOfRegistration: response.data.user.dateOfRegistration
-        })
-        setInterval(() => {
-          setIsLoad(false)
-        }, 500)
-      })
-      .catch(err => {
-        console.log(err)
-        logout()
-      })
-  }
+  // const fetchInfo = () => {
+  //   setIsLoad(true)
+  //   let token = localStorage.getItem('token')
+  //   axios({
+  //     url: 'http://localhost:5000/user/settings',
+  //     method: 'get',
+  //     headers: { 'Authorization': `Bearer ${token}` },
+  //   })
+  //     .then(response => {
+  //       //console.log(response.data)
+  //       if (response.data.authError === true) {
+  //         logout()
+  //       }
+  //       setUser({
+  //         ...JSON.parse(JSON.stringify(user)),
+  //         ...userInfo
+  //       })
+  //       setIsLoad(false)
+  //     })
+  //     .catch(err => {
+  //       console.log(err)
+  //       // logout()
+  //     })
+  // }
 
   const saveInfo = body => {
     setIsLoad(true)
@@ -70,14 +70,16 @@ function Settings() {
         }
 
         if (response.data.success === true) {
-          setInterval(() => {
-            setIsLoad(false)
-          }, 500)
+          setUser({
+            ...JSON.parse(JSON.stringify(user)),
+            ...userInfo
+          })
+          setIsLoad(false)
         }
       })
       .catch(err => {
         console.log(err)
-        logout()
+        //logout()
       })
   }
 
@@ -90,8 +92,8 @@ function Settings() {
             <Input
               input={{
                 type: "text",
-                value: user.name,
-                onChange: (e) => setUser({ ...user, name: e.target.value }),
+                value: userInfo.name,
+                onChange: (e) => setUserInfo({ ...userInfo, name: e.target.value }),
               }}
               label="Name"
               name="user_name"
@@ -100,8 +102,8 @@ function Settings() {
             <Input
               input={{
                 type: "text",
-                value: user.surname,
-                onChange: (e) => setUser({ ...user, surname: e.target.value }),
+                value: userInfo.surname,
+                onChange: (e) => setUserInfo({ ...userInfo, surname: e.target.value }),
               }}
               label="Surname"
               name="user_surname"
@@ -110,8 +112,8 @@ function Settings() {
             <Input
               input={{
                 type: "date",
-                value: user.birthday,
-                onChange: (e) => setUser({ ...user, birthday: e.target.value }),
+                value: userInfo.birthday,
+                onChange: (e) => setUserInfo({ ...userInfo, birthday: e.target.value }),
               }}
               label="Birthday"
               name="user_birthday"
@@ -120,7 +122,7 @@ function Settings() {
             <Input
               input={{
                 type: "text",
-                value: user.dateOfRegistration,
+                value: userInfo.dateOfRegistration,
                 disabled: true
               }}
               label="Date of registration"
@@ -131,8 +133,8 @@ function Settings() {
               <label htmlFor="user_biography">Biography</label>
               <textarea
                 name="user_biography"
-                value={user.biography}
-                onChange={(e) => setUser({ ...user, biography: e.target.value })}
+                value={userInfo.biography}
+                onChange={(e) => setUserInfo({ ...userInfo, biography: e.target.value })}
               ></textarea>
             </div>
           </div>
@@ -141,7 +143,7 @@ function Settings() {
               input={{
                 type: 'submit',
                 value: 'Save',
-                onClick: () => saveInfo(user)
+                onClick: () => saveInfo(userInfo)
               }} />
           </div>
         </>

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
 import { useAuth } from './hooks/auth.hook';
 import Navbar from './components/Navbar';
-import GlobalContext from './context/context';
+import GlobalContext from './context/GlobalContext';
 import useRoutes from './routes';
 import './styles/App.css';
 

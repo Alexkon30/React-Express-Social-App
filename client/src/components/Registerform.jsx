@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import Input from './UI/Input'
-import GlobalContext from '../context/context';
+import GlobalContext from '../context/GlobalContext';
 import axios from 'axios';
 import Formfooter from './UI/Formfooter';
 

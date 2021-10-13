@@ -1,13 +1,13 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useRef } from 'react'
 import PostInput from '../UI/PostInput'
 import axios from 'axios'
-import GlobalContext from '../../context/context'
+import GlobalContext from '../../context/GlobalContext'
+import UserContext from '../../context/UserContext'
 
-function WallPostForm({ user, setUser }) {
-  // console.log(props.user)
+function WallPostForm() {
   const { logout } = useContext(GlobalContext)
-  //const [description, setDescription] = useState('')
-  const description = React.useRef()
+  const { user, setUser } = useContext(UserContext)
+  const description = useRef()
 
   const sendPost = () => {
     axios({
@@ -30,7 +30,7 @@ function WallPostForm({ user, setUser }) {
           setUser({
             ...copy,
             posts: [...copy.posts, {
-              author: JSON.parse(localStorage.getItem('userData')).username,
+              author: user.name,
               date: Date.now(),
               content: description.current.innerText,
               id: response.data.postId
@@ -49,9 +49,6 @@ function WallPostForm({ user, setUser }) {
         role='textbox'
         aria-multiline='true'
         ref={description}
-        placeholder='test'
-        // value={description}
-        // onChange={(e) => setDescription(e.target.value)}
         className="post__form__field"
       />
       <PostInput

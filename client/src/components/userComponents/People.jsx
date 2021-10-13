@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react'
+import React, { useContext, useState, useEffect, useRef } from 'react'
 import Loader from './Loader'
-import GlobalContext from '../../context/context'
+import GlobalContext from '../../context/GlobalContext'
 import UserContext from '../../context/UserContext'
 import axios from 'axios'
 import Person from '../UI/Person'
@@ -14,7 +14,7 @@ function People() {
     usersAxios()
   }, [])
 
-  const usersAxios = () => {
+  function usersAxios() {
     setIsLoad(true)
     let token = localStorage.getItem('token')
 
@@ -29,10 +29,8 @@ function People() {
           console.log(response.data.message)
           logout()
         }
+        setIsLoad(false)
         setPeople(response.data.users)
-        setInterval(() => {
-          setIsLoad(false)
-        }, 500)
       })
       .catch(err => {
         console.log(err.response.data.message)

@@ -1,18 +1,15 @@
 import React, { useContext } from 'react'
-// import GlobalContext from '../../context/context'
-// import axios from 'axios'
 import Loader from './Loader'
-import Person from '../UI/Person'
+import Friend from '../UI/Friend'
 import UserContext from '../../context/UserContext'
+import { Link } from 'react-router-dom'
 
 function Friends() {
-  // const { logout } = useContext(GlobalContext)
   const { user, isLoad } = useContext(UserContext)
 
   // const friendsAxios = () => {
   //   setIsLoad(true)
   //   let token = localStorage.getItem('token')
-
   //   axios({
   //     url: 'http://localhost:5000/user/friends/',
   //     method: 'get',
@@ -45,8 +42,11 @@ function Friends() {
           </div>
           <div className="friends__list">
             {user.friends.length
-              ? user.friends.map((friend, index) => <Person key={index} {...friend} />)
-              : <div>No friends --- btn to people page</div>}
+              ? user.friends.map((friend, index) => <Friend key={index} {...friend} id={friend.friendId} />)
+              : <>
+                <div>No friends</div>
+                <Link to='/people'>Find new friends</Link>
+              </>}
           </div>
         </>
       }

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import GlobalContext from '../context/context';
+import GlobalContext from '../context/GlobalContext';
 
 const Navbar = () => {
   const { mode, logout, isAuth } = useContext(GlobalContext)

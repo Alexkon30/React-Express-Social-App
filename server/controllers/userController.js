@@ -12,7 +12,7 @@ class userController {
     //id пользователя взят из заголовка authorization 
     //с помощью промежуточного ПО auth
     await User.findById(req.userId)
-      .then(result => {
+      .then(async result => {
         //начинаем готовить данные к отправке на клиент
         user = {
           name: result.name,
@@ -20,9 +20,19 @@ class userController {
           birthday: result.birthday,
           biography: result.biography,
           dateOfRegistration: result.dateOfRegistration,
-          friends: result.friends,
-          dialogs: result.dialogs,
+          friends: [], //переделать друзей
+          dialogues: result.dialogues, //переделать диалоги
           posts: []
+        }
+
+        //переделываем друзей из просто id в name, surname, id
+        for (let friend of result.friends) {
+          let friendInfo = await User.findById(friend)
+          user.friends.push({
+            name: friendInfo.name,
+            surname: friendInfo.surname,
+            friendId: friendInfo.id
+          })
         }
       })
       .catch(err => console.log(err))
@@ -31,8 +41,6 @@ class userController {
     //поиск по всем постам
     await WallPost.find({ wallOwnerId: req.userId })
       .then(async result => {
-        //создаем свойство с пустым массивом
-        // user.posts = [];
         //пройтись по всем найденным постам и сформировать массив постов
         //для отображения на клиенте
         for (let post of result) {
@@ -47,6 +55,12 @@ class userController {
         }
       })
       .catch(err => console.log(err))
+
+    //переделать друзей
+    //для каждого из друзей достаточно имени, фамилии, id, ава
+
+    //переделать диалоги
+
     res.json({ success: true, user })
   }
 
@@ -86,6 +100,7 @@ class userController {
             return {
               name: user.name,
               surname: user.surname,
+              id: user.id
               //avatar: user.avatar
             }
           })
@@ -93,19 +108,23 @@ class userController {
       })
   }
 
-  async getSettings(req, res) {
-    User.findById(req.userId)
-      .then(result => {
-        let user = {
-          name: result.name,
-          surname: result.surname,
-          birthday: result.birthday,
-          biography: result.biography,
-          dateOfRegistration: result.dateOfRegistration
-        }
-        res.json({ success: true, user })
-      })
-      .catch(err => res.json({ success: false, message: err.message }))
+  async setFriends(req, res) {
+    try {
+      let user = await User.findById(req.userId)
+      if (req.body.action === 'remove') {
+        await User.findByIdAndUpdate(req.userId, {
+          friends: user.friends.filter(friend => friend !== req.body.id)
+        })
+      } else if (req.body.action === 'add') {
+        await User.findByIdAndUpdate(req.userId, {
+          friends: [...user.friends, req.body.id]
+        })
+      }
+      res.json({ success: true })
+    } catch (e) {
+      console.log(e)
+      res.json({ success: false })
+    }
   }
 
   async setSettings(req, res) {
@@ -121,8 +140,8 @@ class userController {
       .catch(err => res.json({ success: false, message: err.message }))
   }
 
-  // async getFriends(req, res) {
-  //   User.findById(req.userId)
+  // async getFriends(req, res) {  //придется вернуть т.к. стейт юзер хранит только айди друзей
+  //   User.findById(req.userId)   //возвращать не придется т.к. изменил стартовый запрос
   //     .then(async result => {
   //       let friends = []
   //       for (let id of result.friends) {

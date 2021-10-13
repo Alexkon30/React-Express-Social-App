@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react'
 import Loader from './Loader'
 import axios from 'axios'
-import GlobalContext from '../../context/context'
+import GlobalContext from '../../context/GlobalContext'
 import { Link } from 'react-router-dom'
 import Userwall from './Userwall'
 import WallPostForm from './WallPostForm'
@@ -26,15 +26,11 @@ function UserPage() {
       headers: { 'Authorization': `Bearer ${token}` },
     })
       .then(response => {
-        //console.log(response.data)
         if (response.data.authError === true) {
           logout()
         }
-
         setUser(response.data.user)
-        setInterval(() => {
-          setIsLoad(false)
-        }, 1500)
+        setIsLoad(false)
       })
       .catch(err => {
         console.log(err)
@@ -55,8 +51,8 @@ function UserPage() {
             <Link to="/settings" className="user__change">Change user info</Link>
           </div>
         </div>
-          <WallPostForm user={user} setUser={setUser} />
-          <Userwall posts={user.posts} />
+          <WallPostForm />
+          <Userwall />
         </>
       }
     </div>

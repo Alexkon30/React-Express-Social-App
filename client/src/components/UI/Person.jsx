@@ -1,40 +1,55 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useCallback, useEffect } from 'react'
 import UserContext from '../../context/UserContext'
 import axios from 'axios'
-import GlobalContext from '../../context/context'
+import GlobalContext from '../../context/GlobalContext'
+import { Link } from 'react-router-dom'
 
 function Person(props) {
   const { logout } = useContext(GlobalContext)
-  const { user, setUser, setIsLoad } = useContext(UserContext)
-  const [isFriend, setIsFriend] = useState(user.friends.includes(props.id))
-  //переделать стэйт из пропсов в поиск юзера по айди из стейта друзей юзера
-  //при добавлении в друзья должно произойти изменение в трех местах
-  //1. в стейт юзера должен добавиться френд
-  //2. в стейте изФренд должен измениться на противоположный
-  //3. должен уйти запрос на сервер и в зависимости от него произойдут 
-  //два предыдущих
+  const { user, setUser, setIsLoad, setClient } = useContext(UserContext)
+  const [isFriend, setIsFriend] = useState(checkFriend(props.id))
 
-  const addToFriends = id => {
-    setIsLoad(true)
+  function checkFriend(id) {
+    for (let friend of user.friends) {
+      if (friend.friendId === props.id) {
+        return true
+      }
+    }
+    return false
+  }
+
+  const changeFriends = (id, action) => {
+    //setIsLoad(true)
     let token = localStorage.getItem('token')
     axios({
-      url: `http://localhost:5000/user/add_friend/${id}`,
-      method: 'get',
+      url: `http://localhost:5000/user/friends/`,
+      method: 'post',
       headers: { 'Authorization': `Bearer ${token}` },
+      data: {
+        id,
+        action
+      }
     })
       .then(response => {
-        //console.log(response.data)
         if (response.data.authError === true) {
           console.log(response.data.message)
           logout()
         }
         if (response.data.success === true) {
-          setUser({
-            ...JSON.parse(JSON.stringify(user)),
-            friends: [...user.friends, id]
-          })
-          setIsLoad(false)
-          setIsFriend(true)
+          if (action === 'add') {
+            setUser({
+              ...JSON.parse(JSON.stringify(user)),
+              friends: [...user.friends, { name: props.name, surname: props.surname, friendId: props.id }]
+            })
+            setIsFriend(true)
+          } else if (action === 'remove') {
+            setUser({
+              ...JSON.parse(JSON.stringify(user)),
+              friends: user.friends.filter(friend => friend.friendId !== id)
+            })
+            setIsFriend(false)
+          }
+          //setIsLoad(false)
         }
       })
       .catch(err => {
@@ -43,35 +58,12 @@ function Person(props) {
       })
   }
 
-  const removeFromFriends = id => {
-    setIsLoad(true)
-    let token = localStorage.getItem('token')
-
-    axios({
-      url: `http://localhost:5000/user/remove_friend/${id}`,
-      method: 'get',
-      headers: { 'Authorization': `Bearer ${token}` },
+  const getClientInfo = () => {
+    setClient({
+      name: props.name,
+      surname: props.surname,
+      id: props.id
     })
-      .then(response => {
-        //console.log(response.data)
-        if (response.data.authError === true) {
-          console.log(response.data.message)
-          logout()
-        }
-
-        if (response.data.success === true) {
-          setUser({
-            ...JSON.parse(JSON.stringify(user)),
-            friends: user.friends.filter(friend => friend.id !== id)
-          })
-          setIsLoad(false)
-          setIsFriend(false)
-        }
-      })
-      .catch(err => {
-        console.log(err.response.data.message)
-        //logout()
-      })
   }
 
   return (
@@ -79,20 +71,26 @@ function Person(props) {
       <div className="person__photo">
         photo
       </div>
-      <div className="person__info">
+      <Link
+        className="person__info"
+        to={`/people/${props.id}`}
+        onClick={getClientInfo}
+      >
         {props.name} {props.surname}
-      </div>
-      {isFriend
-        ? <div className="add_person_to_friends">
+      </Link>
+      {/* <div className="person__info" onClick={getClientPage(props.id)}>
+        {props.name} {props.surname}
+      </div> */}
+      <div className="person__action">
+        {isFriend
+          ? <button
+            onClick={() => changeFriends(props.id, 'remove')}
+          >Remove from friends</button>
+          :
           <button
-            onClick={() => removeFromFriends(props.id)}
-          >Remove from friend</button>
-        </div>
-        : <div className="add_person_to_friends">
-          <button
-            onClick={() => addToFriends(props.id)}
-          >Add to friend</button>
-        </div>}
+            onClick={() => changeFriends(props.id, 'add')}
+          >Add to friends</button>
+        }</div>
 
     </div>
   )
