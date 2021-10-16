@@ -1,19 +1,10 @@
-import React, { useContext, useEffect } from 'react'
+import React, { useContext } from 'react'
 import UserContext from '../../context/UserContext'
 import Loader from './Loader'
 
 function Client() {
-  const { client, setClient, isLoad } = useContext(UserContext)
+  const { client, isLoad } = useContext(UserContext)
 
-  useEffect(() => {
-    return () => {
-      setClient({
-        name: '',
-        surname: '',
-        id: ''
-      })
-    }
-  })
 
   return (
     <div className="content">

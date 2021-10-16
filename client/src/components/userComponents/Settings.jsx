@@ -79,7 +79,7 @@ function Settings() {
       })
       .catch(err => {
         console.log(err)
-        //logout()
+        logout() //
       })
   }
 

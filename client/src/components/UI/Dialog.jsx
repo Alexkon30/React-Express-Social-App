@@ -1,9 +1,15 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-function Dialog() {
+function Dialog(props) {
+
   return (
     <div>
-      dialog
+      <Link
+        to={`/messenger/${props.id}`}
+        className='dialog__link'
+        onClick={props.onClick}
+      > {props.name} {props.surname} </Link>
     </div>
   )
 }

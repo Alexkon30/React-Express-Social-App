@@ -1,31 +1,28 @@
 import User from '../models/User.js';
 import WallPost from '../models/WallPost.js';
-
+import Dialog from '../models/Dialog.js'
 
 
 class userController {
   async getMainInfo(req, res) {
 
-    //создаем пустого пользователя для наполнения данными
-    let user = {}
-
     //id пользователя взят из заголовка authorization 
     //с помощью промежуточного ПО auth
     await User.findById(req.userId)
       .then(async result => {
-        //начинаем готовить данные к отправке на клиент
-        user = {
+        let user = {
+          id: result.id,
           name: result.name,
           surname: result.surname,
           birthday: result.birthday,
           biography: result.biography,
           dateOfRegistration: result.dateOfRegistration,
-          friends: [], //переделать друзей
-          dialogues: result.dialogues, //переделать диалоги
+          friends: [],
+          dialogues: [],
           posts: []
         }
 
-        //переделываем друзей из просто id в name, surname, id
+        //готовим список друзей
         for (let friend of result.friends) {
           let friendInfo = await User.findById(friend)
           user.friends.push({
@@ -34,17 +31,21 @@ class userController {
             friendId: friendInfo.id
           })
         }
-      })
-      .catch(err => console.log(err))
 
-    //нужно сформировать свойство с постами перед отправкой
-    //поиск по всем постам
-    await WallPost.find({ wallOwnerId: req.userId })
-      .then(async result => {
-        //пройтись по всем найденным постам и сформировать массив постов
-        //для отображения на клиенте
-        for (let post of result) {
-          //поиск автора поста по id, который есть в схеме поста
+        //готовим список диалогов
+        for (let dialogId of result.dialogues) {
+          let dialog = await Dialog.findById(dialogId)
+          let partner = await User.findById(dialog.members.filter(id => id !== req.userId)[0])
+          user.dialogues.push({
+            name: partner.name,         //имя собеседника
+            surname: partner.surname,   //surname собеседника
+            id: partner.id              //id собеседника
+          })
+        }
+
+        //готовим список постов
+        let posts = await WallPost.find({ wallOwnerId: req.userId })
+        for (let post of posts) {
           const author = await User.findById(post.authorId)
           user.posts.push({
             content: post.content,
@@ -53,15 +54,10 @@ class userController {
             id: post.id
           })
         }
+
+        res.json({ success: true, user })
       })
-      .catch(err => console.log(err))
-
-    //переделать друзей
-    //для каждого из друзей достаточно имени, фамилии, id, ава
-
-    //переделать диалоги
-
-    res.json({ success: true, user })
+      .catch(err => console.log(err.message))
   }
 
   async sendPost(req, res) {
@@ -136,41 +132,6 @@ class userController {
     })
       .then(result => {
         res.json({ success: true })
-      })
-      .catch(err => res.json({ success: false, message: err.message }))
-  }
-
-  // async getFriends(req, res) {  //придется вернуть т.к. стейт юзер хранит только айди друзей
-  //   User.findById(req.userId)   //возвращать не придется т.к. изменил стартовый запрос
-  //     .then(async result => {
-  //       let friends = []
-  //       for (let id of result.friends) {
-  //         let friend = await User.findById(id)
-  //         friends.push({
-  //           name: friend.name,
-  //           surname: friend.surname,
-  //           //avatar: friend.avatar
-  //         })
-  //       }
-  //       res.json({ success: true, friends })
-  //     })
-  //     .catch(err => res.json({ success: false, message: err.message }))
-  // }
-
-  async getDialogues(req, res) {
-    User.findById(req.userId)
-      .then(async result => {
-        let dialogues = []
-        for (let id of result.friends) {
-          let friend = await User.findById(id)
-          dialogues.push({
-            name: friend.name,
-            surname: friend.surname,
-            //lastMessage: 
-            //avatar: friend.avatar
-          })
-        }
-        res.json({ success: true, dialogues })
       })
       .catch(err => res.json({ success: false, message: err.message }))
   }

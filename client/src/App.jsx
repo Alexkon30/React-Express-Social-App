@@ -1,10 +1,11 @@
-import React, { useState } from 'react';
-import { BrowserRouter as Router } from 'react-router-dom';
-import { useAuth } from './hooks/auth.hook';
-import Navbar from './components/Navbar';
-import GlobalContext from './context/GlobalContext';
-import useRoutes from './routes';
-import './styles/App.css';
+import React, { useState } from 'react'
+import { BrowserRouter as Router } from 'react-router-dom'
+import { useAuth } from './hooks/auth.hook'
+import Navbar from './components/Navbar'
+import GlobalContext from './context/GlobalContext'
+import useRoutes from './routes'
+import './styles/App.css'
+import socket from './socket'
 
 function App() {
   const [mode, setMode] = useState('login');

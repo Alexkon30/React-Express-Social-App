@@ -6,9 +6,10 @@ import Loginform from './components/Loginform'
 import Registerform from './components/Registerform'
 import UserPage from './components/userComponents/UserPage'
 import Friends from './components/userComponents/Friends'
-import Messages from './components/userComponents/Messages'
+import Messenger from './components/userComponents/Messenger'
 import Settings from './components/userComponents/Settings'
 import People from './components/userComponents/People'
+import DialogPage from './components/userComponents/DialogPage'
 
 import UserContext from './context/UserContext'
 import Client from './components/userComponents/Client'
@@ -16,6 +17,7 @@ import Client from './components/userComponents/Client'
 
 function useRoutes(isAuth) {
   const [user, setUser] = useState({
+    id: '',
     name: '',
     surname: '',
     biography: '',
@@ -31,6 +33,7 @@ function useRoutes(isAuth) {
     id: ''
   })
   const [isLoad, setIsLoad] = useState(false)
+  const [messages, setMessages] = useState([])
 
   if (isAuth) {
     return (
@@ -38,14 +41,15 @@ function useRoutes(isAuth) {
         <Aside />
         <Switch>
           <UserContext.Provider value={{
-            user, setUser, isLoad, setIsLoad, client, setClient
+            user, setUser, isLoad, setIsLoad, client, setClient, messages, setMessages
           }}>
-            <Route path="/user" exact component={UserPage} />
+            <Route path="/user" component={UserPage} />
             <Route path="/people" exact component={People} />
             <Route path="/friends" component={Friends} />
-            <Route path="/messages" component={Messages} />
+            <Route path="/messenger" exact component={Messenger} />
             <Route path="/settings" component={Settings} />
             <Route path="/people/:id" component={Client} />
+            <Route path="/messenger/:id" component={DialogPage} />
             <Redirect to="/user" />
           </UserContext.Provider>
         </Switch>
