@@ -2,6 +2,8 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import UserContext from '../../context/UserContext'
 
+// import MainStore from '../../store/mainStore'
+
 function Friend(props) {
   const { user, setUser, setIsLoad, setClient } = useContext(UserContext)
 

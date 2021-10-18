@@ -6,7 +6,7 @@ function Dialog(props) {
   return (
     <div>
       <Link
-        to={`/messenger/${props.id}`}
+        to={`/messenger/${props.dialogId}`}
         className='dialog__link'
         onClick={props.onClick}
       > {props.name} {props.surname} </Link>

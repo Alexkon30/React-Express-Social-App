@@ -3,6 +3,7 @@ import UserContext from '../../context/UserContext'
 import axios from 'axios'
 import GlobalContext from '../../context/GlobalContext'
 import { Link } from 'react-router-dom'
+// import MainStore from '../../store/mainStore'
 
 function Person(props) {
   const { logout } = useContext(GlobalContext)
@@ -19,7 +20,7 @@ function Person(props) {
   }
 
   const changeFriends = (id, action) => {
-    //setIsLoad(true)
+    // setIsLoad(true)
     let token = localStorage.getItem('token')
     axios({
       url: `http://localhost:5000/user/friends/`,
@@ -41,15 +42,17 @@ function Person(props) {
               ...JSON.parse(JSON.stringify(user)),
               friends: [...user.friends, { name: props.name, surname: props.surname, friendId: props.id }]
             })
+            // MainStore.UserStore.setUserAttr('friends', [...MainStore.UserStore.user.friends, { name: props.name, surname: props.surname, friendId: props.id }])
             setIsFriend(true)
           } else if (action === 'remove') {
             setUser({
               ...JSON.parse(JSON.stringify(user)),
               friends: user.friends.filter(friend => friend.friendId !== id)
             })
+            // MainStore.UserStore.setUserAttr('friends', MainStore.UserStore.user.friends.filter(friend => friend.friendId !== id))
             setIsFriend(false)
           }
-          //setIsLoad(false)
+          // setIsLoad(false)
         }
       })
       .catch(err => {
@@ -78,9 +81,6 @@ function Person(props) {
       >
         {props.name} {props.surname}
       </Link>
-      {/* <div className="person__info" onClick={getClientPage(props.id)}>
-        {props.name} {props.surname}
-      </div> */}
       <div className="person__action">
         {isFriend
           ? <button

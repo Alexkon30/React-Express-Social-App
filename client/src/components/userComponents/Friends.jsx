@@ -4,7 +4,7 @@ import Friend from '../UI/Friend'
 import UserContext from '../../context/UserContext'
 import { Link } from 'react-router-dom'
 
-function Friends() {
+const Friends = () => {
   const { user, isLoad } = useContext(UserContext)
 
   // const friendsAxios = () => {

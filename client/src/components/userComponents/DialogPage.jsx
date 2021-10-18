@@ -5,7 +5,7 @@ import Message from '../UI/Message'
 import Loader from './Loader'
 import socket from '../../socket'
 
-function DialogPage() {
+const DialogPage = () => {
   const { messages, setMessages, isLoad, client, user } = useContext(UserContext)
 
   useEffect(() => {
@@ -31,7 +31,7 @@ function DialogPage() {
   }
 
   socket.on('message', msg => {
-    if (msg.action === 'new dialog message') {
+    if (msg.action === 'new dialog message' && msg.dialogId === client.dialogId) {
       setMessages([...messages, {
         content: msg.content,
         date: msg.date,
@@ -52,7 +52,7 @@ function DialogPage() {
           >{client.name} {client.surname}</Link>
           <div className='dialog__content'>
             {messages.length
-              ? messages.map((message, index) => <Message key={index} {...message} />)
+              ? messages.map((message, index) => <Message key={message.id} {...message} />)
               : <div>No messages</div>
             }
           </div>

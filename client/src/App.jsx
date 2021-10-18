@@ -5,9 +5,10 @@ import Navbar from './components/Navbar'
 import GlobalContext from './context/GlobalContext'
 import useRoutes from './routes'
 import './styles/App.css'
-import socket from './socket'
+// import MainStore from './store/mainStore.js'
+// import { observer } from 'mobx-react-lite'
 
-function App() {
+const App = () => {
   const [mode, setMode] = useState('login');
   const [form, setForm] = useState({
     username: '',
@@ -26,8 +27,8 @@ function App() {
     <GlobalContext.Provider value={{
       mode, setMode,
       form, setForm,
-      login, logout, token, isAuth,
-      // userId
+      login, logout, token, isAuth
+      // userId,
     }}>
       <Router>
         <Navbar />

@@ -31,9 +31,9 @@ class socketController {
         content: message.content,
         date: message.date,
         author: author.name,
-        id: message.id
+        id: message.id,
+        dialogId: message.dialogId
       })
-      // socket.broadcast.
     }
   }
 

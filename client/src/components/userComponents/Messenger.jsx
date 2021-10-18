@@ -14,21 +14,17 @@ function Messenger() {
 
   const setPartner = dialog => {
     setIsLoad(true)
-    setClient({
-      name: dialog.name,
-      surname: dialog.surname,
-      id: dialog.id
-    })
+    setClient({ ...dialog, id: dialog.partnerId })
 
     //загрузить сообщения 
-    fetch(`http://localhost:5000/messenger/`, { //в id хранится не диалог, а собеседник
+    fetch(`http://localhost:5000/messenger/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${localStorage.getItem('token')}`
       },
       body: JSON.stringify({
-        companionId: dialog.id
+        partnerId: dialog.partnerId
       })
     })
       .then(result => result.json())
@@ -37,16 +33,9 @@ function Messenger() {
         if (response.success === 'true') {
           setMessages(response.messages)
         }
-        setIsLoad(false)
       })
       .catch(err => console.log(err))
-
-    // axios({
-    //   url: 'http://localhost:5000/messenger/',
-    //   method: 'get',
-    //   headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
-    // })
-
+    setIsLoad(false)
   }
 
   return (
@@ -59,8 +48,8 @@ function Messenger() {
           </div>
           <div className="friends__list">
             {user.dialogues.length
-              ? user.dialogues.map((dialog, index) => <Dialog
-                key={index}
+              ? user.dialogues.map(dialog => <Dialog
+                key={dialog.dialogId}
                 onClick={() => setPartner(dialog)}
                 {...dialog} />)
               : <div>No dialogues</div>}

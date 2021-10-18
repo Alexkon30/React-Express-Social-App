@@ -4,7 +4,7 @@ import User from '../models/User.js'
 
 class messengerController {
   async getMessages(req, res) {
-    let dialog = await Dialog.find({ members: { $all: [req.body.companionId, req.userId] } })
+    let dialog = await Dialog.find({ members: { $all: [req.body.partnerId, req.userId] } })
     if (!dialog.length) {
       dialog = await Dialog.create({ members: [msg.from, msg.to] })
     }

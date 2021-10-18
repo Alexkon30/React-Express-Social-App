@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Aside from './components/userComponents/Aside'
-//import Login from './pages/Login'
 import Loginform from './components/Loginform'
 import Registerform from './components/Registerform'
 import UserPage from './components/userComponents/UserPage'
@@ -13,6 +12,8 @@ import DialogPage from './components/userComponents/DialogPage'
 
 import UserContext from './context/UserContext'
 import Client from './components/userComponents/Client'
+
+// import MainStore from './store/mainStore'
 
 
 function useRoutes(isAuth) {

@@ -1,15 +1,17 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import UserContext from '../../context/UserContext'
 import axios from 'axios'
+import GlobalContext from '../../context/GlobalContext'
 
 function Post(props) {
-  const rating = React.useState({
-    likes: 0,
-    dislikes: 0
-  })
+  // const rating = React.useState({
+  //   likes: 0,
+  //   dislikes: 0
+  // })
 
 
-  const { user, setUser } = React.useContext(UserContext)
+  const { user, setUser } = useContext(UserContext)
+  const { logout } = useContext(GlobalContext)
 
   let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
@@ -27,8 +29,8 @@ function Post(props) {
     })
       .then(response => {
         if (response.data.success === false) {
-          alert(response.data.message)
-          //logout()
+          //alert(response.data.message)
+          logout()
         } else if (response.data.success === true) {
           setUser({
             ...JSON.parse(JSON.stringify(user)),

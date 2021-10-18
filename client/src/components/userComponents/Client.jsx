@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import UserContext from '../../context/UserContext'
 import Loader from './Loader'
 
-function Client() {
+const Client = () => {
   const { client, isLoad } = useContext(UserContext)
 
 

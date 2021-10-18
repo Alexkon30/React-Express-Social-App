@@ -39,7 +39,8 @@ class userController {
           user.dialogues.push({
             name: partner.name,         //имя собеседника
             surname: partner.surname,   //surname собеседника
-            id: partner.id              //id собеседника
+            partnerId: partner.id,      //id собеседника
+            dialogId                    //id диалога
           })
         }
 
