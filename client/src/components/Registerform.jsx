@@ -7,17 +7,17 @@ import Formfooter from './UI/Formfooter';
 function Registerform() {
   const { form, setForm, setMode, login } = useContext(GlobalContext)
 
-  useEffect(() => {
-    setMode('register');
-    setForm({
-      username: '',
-      email: '',
-      password: '',
-      confirmedPass: '',
-      agreement: false
-    });
-    // eslint-disable-next-line
-  }, []);
+  // useEffect(() => {
+  //   setMode('register');
+  //   setForm({
+  //     username: '',
+  //     email: '',
+  //     password: '',
+  //     confirmedPass: '',
+  //     agreement: false
+  //   });
+  //   // eslint-disable-next-line
+  // }, []);
 
   const registerAxios = body => {
     axios.post('http://localhost:5000/register', body)

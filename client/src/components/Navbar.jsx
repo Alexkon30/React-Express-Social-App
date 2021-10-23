@@ -1,27 +1,14 @@
-import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
-import GlobalContext from '../context/GlobalContext';
+import React, { useContext } from 'react'
+import { Link as ReactLink } from 'react-router-dom'
+import GlobalContext from '../context/GlobalContext'
+import { Button } from '@mui/material'
+import { observer } from 'mobx-react-lite'
 
-const Navbar = () => {
-  const { mode, logout, isAuth } = useContext(GlobalContext)
-
-  if (!isAuth) {
-    return (
-      <div className="navbar">
-        <div className="navbar__logo">
-          <a href="/">
-            <img src="logo_2.png" alt="logo" />
-          </a>
-        </div>
-        <div className="navbar__btn" >
-          {mode === 'login'
-            ? <Link to="/register">Registration</Link>
-            : <Link to="/login">Login</Link>
-          }
-        </div>
-      </div>
-    )
-  }
+const Navbar = observer(() => {
+  const {
+    MainStore,
+    logout,
+  } = useContext(GlobalContext)
 
   return (
     <div className="navbar">
@@ -30,11 +17,19 @@ const Navbar = () => {
           <img src="logo_2.png" alt="logo" />
         </a>
       </div>
-      <div className="navbar__btn" >
-        <Link to="/login" onClick={logout}>Logout</Link>
+      <div className="navbar__btn">
+        {MainStore.isAuth
+          ? <ReactLink to="/login" onClick={logout}>Logout</ReactLink>
+          : <>
+            {MainStore.mode === 'login'
+              ? <ReactLink to="/register" onClick={() => MainStore.setMode('register')}>Registration</ReactLink>
+              : <ReactLink to="/login" onClick={() => MainStore.setMode('login')}>Login</ReactLink>
+            }
+          </>
+        }
       </div>
     </div>
   )
-}
+})
 
 export default Navbar;

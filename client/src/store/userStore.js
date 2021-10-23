@@ -1,4 +1,4 @@
-import { makeAutoObservable } from 'mobx'
+// import { makeAutoObservable } from 'mobx'
 
 export default class UserStore {
   user = {
@@ -13,9 +13,9 @@ export default class UserStore {
     friends: []
   }
 
-  constructor() {
-    makeAutoObservable(this)
-  }
+  // constructor() {
+  //   makeAutoObservable(this)
+  // }
 
   setUserAttr(attr, value) {
     this.user[attr] = value

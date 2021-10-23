@@ -30,7 +30,9 @@ function UserPage() {
           logout()
         }
         setUser(response.data.user)
-        setIsLoad(false)
+        setTimeout(() => {
+          setIsLoad(false)
+        }, 2000)
       })
       .catch(err => {
         console.log(err)

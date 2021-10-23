@@ -5,8 +5,8 @@ import ClientStore from './clientStore'
 
 class MainStore {
   mode = 'login'
-  isAuth = 'false'
-  isLoad = 'false'
+  isAuth = false
+  isLoad = false
   messages = []
 
   constructor() {
@@ -33,14 +33,13 @@ class MainStore {
     this.messages.push(msgObj)
   }
 
-  removeMessage(msgId) {
+  removeMessageById(msgId) {
     this.messages = this.messages.filter(msg => msg.id !== msgId)
   }
 
   setMessages(array) {
     this.messages = array
   }
-
 }
 
 export default new MainStore()
