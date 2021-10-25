@@ -1,4 +1,4 @@
-// import { makeAutoObservable } from 'mobx'
+import { makeAutoObservable } from 'mobx'
 
 export default class FormStore {
   form = {
@@ -8,12 +8,11 @@ export default class FormStore {
     confirmedPass: '',
     agreement: false
   }
+  constructor() {
+    makeAutoObservable(this)
+  }
 
-  // constructor() {
-  //   makeAutoObservable(this)
-  // }
-
-  setFormAttr(attr, value) {
+  setAttr(attr, value) {
     this.form[attr] = value
   }
 

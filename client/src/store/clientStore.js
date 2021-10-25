@@ -1,5 +1,3 @@
-// import { makeAutoObservable } from 'mobx'
-
 export default class ClientStore {
   client = {
     id: '',
@@ -11,10 +9,6 @@ export default class ClientStore {
     posts: [],
     friends: []
   }
-
-  // constructor() {
-  //   makeAutoObservable(this)
-  // }
 
   setClientAttr(attr, value) {
     this.client[attr] = value

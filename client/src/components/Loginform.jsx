@@ -1,14 +1,13 @@
 import React, { useContext, useEffect } from 'react'
 import GlobalContext from '../context/GlobalContext'
-import Formfooter from './UI/Formfooter'
-import Input from './UI/Input'
 import axios from 'axios'
 import { Link as ReactLink } from 'react-router-dom'
-import { TextField, Button, Container, Typography, Grid, Box, Link } from '@mui/material/'
+import { Typography, TextField, Button, Link, Container, Box, FormControlLabel, Checkbox } from '@mui/material'
+import { observer } from 'mobx-react-lite'
 
-function Loginform() {
+const Loginform = observer(() => {
 
-  const { form, setForm, setMode, login } = useContext(GlobalContext)
+  const { MainStore, FormStore, login } = useContext(GlobalContext)
 
   const loginAxios = body => {
     axios.post('http://localhost:5000/login', body)
@@ -21,119 +20,78 @@ function Loginform() {
       .catch(err => console.log(err))
   }
 
-  // useEffect(() => {
-  //   setMode('login');
-  //   setForm({
-  //     username: '',
-  //     email: '',
-  //     password: '',
-  //     confirmedPass: '',
-  //     agreement: false
-  //   });
-  //   // eslint-disable-next-line
-  // }, []);
+  useEffect(() => {
+    FormStore.setForm({
+      username: '',
+      email: '',
+      password: '',
+      confirmedPass: '',
+      agreement: false
+    });
+    // eslint-disable-next-line
+  }, []);
 
 
   return (
-    <Grid container
-      direction='column'
-      spacing={2}
-      alignItems='stretch'
+    <Container
+      component="main"
+      maxWidth="xs"
       sx={{
-        borderRadius: '6px',
-        background: 'white',
-        width: '450px',
-        padding: '16px',
-        mt: '-120px'
+        // border: '1px solid green',
+        mt: 10,
+        p: 3,
+        backgroundColor: 'white',
+        borderRadius: 2
       }}
     >
-      <Grid item
-      >
-        <Typography
-          sx={{
-            width: '100%',
-            textAlign: 'center'
-          }}>Log In</Typography>
-      </Grid>
-      <Grid item>
-        <TextField
-          label="Login"
-          variant='outlined'
-          sx={{
-            width: '100%'
-          }}
-        />
-      </Grid>
-      <Grid item>
-        <TextField
-          label="Password"
-          type="password"
-          variant='outlined'
-          sx={{
-            width: '100%'
-          }}
-        />
-      </Grid>
-      <Grid item>
-        <Button
-          variant="contained"
-          sx={{
-            width: '100%'
-          }}
-        >Log In</Button>
-      </Grid>
-      <Grid item
+      <Box
         sx={{
           display: 'flex',
-          justifyContent: 'space-around',
+          flexDirection: 'column',
+          alignItems: 'center',
+          // border: '1px solid red',
         }}
       >
-        <Typography noWrap>Don't have an account?</Typography>
+        <Typography component="h1" variant="h5">
+          Sign in
+        </Typography>
+        <Box component="form"
+          onSubmit={() => loginAxios(FormStore.form)}
+          noValidate
+          sx={{ mt: 1 }}
+        >
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Email Address"
+            autoComplete="email"
+          />
+          <TextField
+            margin="normal"
+            fullWidth
+            label="Password"
+            type="password"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            sx={{ mt: 3, mb: 2 }}
+          >
+            Sign In
+          </Button>
+        </Box>
         <ReactLink to='/register'>
-          <Link underline='hover'>Registration</Link>
+          <Link variant="body3">
+            {"Don't have an account? Sign Up"}
+          </Link>
         </ReactLink>
-      </Grid>
-    </Grid >
+      </Box>
+    </Container >
   )
-}
+})
 
 export default Loginform;
-
-// eslint-disable-next-line no-lone-blocks
-{/* <div className="loginform">
-  <div className="loginform__header">Login</div>
-  <div className="loginform__body">
-    <Input
-      input={{
-        type: "text",
-        value: form.email,
-        onChange: (e) => setForm({ ...form, email: e.target.value }),
-        autoComplete: "off",
-      }}
-      label="Email"
-      name="user_email"
-      className="loginform__body__field"
-    />
-    <Input
-      input={{
-        type: "password",
-        value: form.password,
-        onChange: (e) => setForm({ ...form, password: e.target.value })
-      }}
-      label="Password"
-      name="user_password"
-      className="loginform__body__field"
-
-    />
-    <button className="loginform__btn" onClick={() => loginAxios(form)}>Login</button>
-  </div>
-  <Formfooter
-    block="loginform"
-    text="Don't have an account?"
-    href="/register"
-    linkText="Registration"
-  />
-</div> */}
 
 // eslint-disable-next-line no-lone-blocks
 {/* <FormControlLabel

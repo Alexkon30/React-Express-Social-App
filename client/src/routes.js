@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Switch, Route, Redirect } from 'react-router-dom'
 import Aside from './components/userComponents/Aside'
 import Loginform from './components/Loginform'
@@ -10,10 +10,11 @@ import Settings from './components/userComponents/Settings'
 import People from './components/userComponents/People'
 import DialogPage from './components/userComponents/DialogPage'
 import Client from './components/userComponents/Client'
+import GlobalContext from './context/GlobalContext'
 
 
-
-function useRoutes(isAuth) {
+function Routes() {
+  const { isAuth } = { ...useContext(GlobalContext) }
 
   return (
     <Switch>
@@ -40,4 +41,4 @@ function useRoutes(isAuth) {
   )
 }
 
-export default useRoutes
+export default Routes

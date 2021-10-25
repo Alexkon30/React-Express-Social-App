@@ -8,6 +8,11 @@ class MainStore {
   isAuth = false
   isLoad = false
   messages = []
+  // checked = false
+
+  // setChecked(bool) {
+  //   this.checked = bool
+  // }
 
   constructor() {
     makeAutoObservable(this)
@@ -16,6 +21,10 @@ class MainStore {
     this.UserStore = new UserStore()
     this.ClientStore = new ClientStore()
   }
+
+  // FormStore = new FormStore()
+  // UserStore = new UserStore()
+  // ClientStore = new ClientStore()
 
   setMode(newMode) {
     this.mode = newMode
@@ -37,8 +46,8 @@ class MainStore {
     this.messages = this.messages.filter(msg => msg.id !== msgId)
   }
 
-  setMessages(array) {
-    this.messages = array
+  setMessages(newMessagesArray) {
+    this.messages = newMessagesArray
   }
 }
 
