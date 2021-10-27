@@ -6,11 +6,6 @@
 html {
   font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif; }
 
-body {
-  background-image: url(./background.jpg);
-  background-size: cover;
-  background-attachment: fixed; }
-
 a {
   text-decoration: none;
   color: whitesmoke; }

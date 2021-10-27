@@ -1,15 +1,17 @@
 import { makeAutoObservable } from 'mobx'
 
 export default class FormStore {
+
+  constructor() {
+    makeAutoObservable(this)
+  }
+
   form = {
     username: '',
     email: '',
     password: '',
     confirmedPass: '',
     agreement: false
-  }
-  constructor() {
-    makeAutoObservable(this)
   }
 
   setAttr(attr, value) {

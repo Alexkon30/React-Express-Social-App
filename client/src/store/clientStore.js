@@ -1,4 +1,11 @@
+import { makeAutoObservable } from 'mobx'
+
 export default class ClientStore {
+
+  constructor() {
+    makeAutoObservable()
+  }
+
   client = {
     id: '',
     name: '',

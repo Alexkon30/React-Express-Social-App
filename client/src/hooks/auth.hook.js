@@ -13,7 +13,6 @@ export const useAuth = () => {
     setToken(null)
     localStorage.removeItem('token')
     localStorage.removeItem('userData')
-
   }, [])
 
   useEffect(() => {

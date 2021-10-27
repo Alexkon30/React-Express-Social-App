@@ -6,6 +6,9 @@
 /.pnp
 .pnp.js
 questions.txt
+test.js
+test.html
+test.css
 
 # testing
 /coverage

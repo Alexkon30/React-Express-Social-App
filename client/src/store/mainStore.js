@@ -4,27 +4,41 @@ import UserStore from './userStore'
 import ClientStore from './clientStore'
 
 class MainStore {
-  mode = 'login'
-  isAuth = false
-  isLoad = false
-  messages = []
-  // checked = false
-
-  // setChecked(bool) {
-  //   this.checked = bool
-  // }
 
   constructor() {
     makeAutoObservable(this)
-
-    this.FormStore = new FormStore()
-    this.UserStore = new UserStore()
-    this.ClientStore = new ClientStore()
   }
 
-  // FormStore = new FormStore()
-  // UserStore = new UserStore()
-  // ClientStore = new ClientStore()
+  FormStore = new FormStore()
+  UserStore = new UserStore()
+  ClientStore = new ClientStore()
+
+  messages = []
+  mode = 'login'
+  // isAuth = false
+  isLoad = false
+  token = ''
+
+  get isAuth() {
+    return Boolean(this.token)
+  }
+
+  login(newToken, user) {
+    this.token = newToken
+    localStorage.setItem('token', newToken)
+    localStorage.setItem('userData', user)
+  }
+
+  checkToken() {
+    let storageToken = localStorage.getItem('token')
+    this.token = storageToken || ''
+  }
+
+  logout() {
+    localStorage.removeItem('token')
+    localStorage.removeItem('userData')
+    this.token = ''
+  }
 
   setMode(newMode) {
     this.mode = newMode
