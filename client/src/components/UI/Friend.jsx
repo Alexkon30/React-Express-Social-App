@@ -1,14 +1,14 @@
 import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
-import UserContext from '../../context/UserContext'
+import GlobalContext from '../../context/GlobalContext'
+import { observer } from 'mobx-react-lite'
 
-// import MainStore from '../../store/mainStore'
 
-function Friend(props) {
-  const { user, setUser, setIsLoad, setClient } = useContext(UserContext)
+const Friend = observer((props) => {
+  const { ClientStore } = useContext(GlobalContext)
 
   const getClientInfo = () => {
-    setClient({
+    ClientStore.setClient({
       name: props.name,
       surname: props.surname,
       id: props.id
@@ -29,6 +29,6 @@ function Friend(props) {
       </Link>
     </div>
   )
-}
+})
 
 export default Friend

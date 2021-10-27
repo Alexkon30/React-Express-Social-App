@@ -5,19 +5,18 @@ import GlobalContext from '../../context/GlobalContext'
 import { Link } from 'react-router-dom'
 import Userwall from './Userwall'
 import WallPostForm from './WallPostForm'
-import UserContext from '../../context/UserContext'
+import { observer } from 'mobx-react-lite'
 
-function UserPage() {
-  const { logout } = useContext(GlobalContext)
-  const { user, setUser, isLoad, setIsLoad } = useContext(UserContext)
-
+const UserPage = observer(() => {
+  const { MainStore, UserStore } = useContext(GlobalContext)
 
   useEffect(() => {
     userAxios()
+    // eslint-disable-next-line
   }, [])
 
   const userAxios = () => {
-    setIsLoad(true)
+    MainStore.setLoad(true)
     let token = localStorage.getItem('token')
 
     axios({
@@ -27,29 +26,29 @@ function UserPage() {
     })
       .then(response => {
         if (response.data.authError === true) {
-          logout()
+          MainStore.logout()
         }
-        setUser(response.data.user)
+        UserStore.setUser(response.data.user)
         setTimeout(() => {
-          setIsLoad(false)
+          MainStore.setLoad(false)
         }, 2000)
       })
       .catch(err => {
         console.log(err)
-        logout()
+        MainStore.logout()
       })
   }
 
   return (
     <div className="content">
-      {isLoad ?
+      {MainStore.isLoad ?
         <Loader />
         : <><div className="user__header">
           <div className="user__photo">Photo</div>
           <div className="user__description">
-            <div className="user__name">{user.name} {user.surname}</div>
-            <div className="user__biography">{user.biography}</div>
-            <div className="user__birthday">{user.birthday}</div>
+            <div className="user__name">{UserStore.user.name} {UserStore.user.surname}</div>
+            <div className="user__biography">{UserStore.user.biography}</div>
+            <div className="user__birthday">{UserStore.user.birthday}</div>
             <Link to="/settings" className="user__change">Change user info</Link>
           </div>
         </div>
@@ -59,6 +58,6 @@ function UserPage() {
       }
     </div>
   )
-}
+})
 
 export default UserPage

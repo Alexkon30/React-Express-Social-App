@@ -1,21 +1,22 @@
 import React, { useContext } from 'react'
-import UserContext from '../../context/UserContext'
+import GlobalContext from '../../context/GlobalContext'
 import Loader from './Loader'
+import { observer } from 'mobx-react-lite'
 
-const Client = () => {
-  const { client, isLoad } = useContext(UserContext)
+const Client = observer(() => {
+  const { MainStore, ClientStore } = useContext(GlobalContext)
 
 
   return (
     <div className="content">
-      {isLoad
+      {MainStore.isLoad
         ? <Loader />
         : <div>
-          {client.name} {client.surname}
+          {ClientStore.client.name} {ClientStore.client.surname}
         </div>
       }
     </div>
   )
-}
+})
 
 export default Client

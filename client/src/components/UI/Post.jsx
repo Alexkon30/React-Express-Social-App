@@ -1,17 +1,16 @@
 import React, { useContext } from 'react'
-import UserContext from '../../context/UserContext'
 import axios from 'axios'
 import GlobalContext from '../../context/GlobalContext'
+import { observer } from 'mobx-react-lite'
 
-function Post(props) {
+
+const Post = observer((props) => {
   // const rating = React.useState({
   //   likes: 0,
   //   dislikes: 0
   // })
 
-
-  const { user, setUser } = useContext(UserContext)
-  const { logout } = useContext(GlobalContext)
+  const { MainStore, UserStore } = useContext(GlobalContext)
 
   let months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 
@@ -30,11 +29,11 @@ function Post(props) {
       .then(response => {
         if (response.data.success === false) {
           //alert(response.data.message)
-          logout()
+          MainStore.logout()
         } else if (response.data.success === true) {
-          setUser({
-            ...JSON.parse(JSON.stringify(user)),
-            posts: user.posts.filter(post => post.id !== props.id)
+          UserStore.setUser({
+            ...JSON.parse(JSON.stringify(UserStore.user)),
+            posts: UserStore.user.posts.filter(post => post.id !== props.id)
           })
           alert(response.data.message)
         }
@@ -66,6 +65,6 @@ function Post(props) {
       </div>
     </div>
   )
-}
+})
 
 export default Post

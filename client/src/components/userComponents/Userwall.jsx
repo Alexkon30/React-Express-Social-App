@@ -1,16 +1,17 @@
 import React, { useContext } from 'react'
-import UserContext from '../../context/UserContext'
 import Post from '../UI/Post'
+import GlobalContext from '../../context/GlobalContext'
+import { observer } from 'mobx-react-lite'
 
-function Userwall() {
-  const { user } = useContext(UserContext)
+const Userwall = observer(() => {
+  const { UserStore } = useContext(GlobalContext)
   return (
     <div className="user__wall">
-      {user.posts.length
-        ? user.posts.map((post, index) => <Post key={index} {...post} />)
+      {UserStore.user.posts.length
+        ? UserStore.user.posts.map((post, index) => <Post key={index} {...post} />)
         : <div>No posts</div>}
     </div>
   )
-}
+})
 
 export default Userwall

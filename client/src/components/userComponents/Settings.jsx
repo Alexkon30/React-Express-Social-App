@@ -3,11 +3,10 @@ import Loader from './Loader'
 import axios from 'axios'
 import GlobalContext from '../../context/GlobalContext'
 import Input from '../UI/Input'
-import UserContext from '../../context/UserContext'
+import { observer } from 'mobx-react-lite'
 
-function Settings() {
-  const { logout } = useContext(GlobalContext)
-  const { user, setUser, isLoad, setIsLoad } = useContext(UserContext)
+const Settings = observer(() => {
+  const { MainStore, UserStore } = useContext(GlobalContext)
   const [userInfo, setUserInfo] = useState({
     name: '',
     surname: '',
@@ -19,12 +18,13 @@ function Settings() {
 
   useEffect(() => {
     setUserInfo({
-      name: user.name,
-      surname: user.surname,
-      birthday: user.birthday,
-      biography: user.biography,
-      dateOfRegistration: user.dateOfRegistration
+      name: UserStore.user.name,
+      surname: UserStore.user.surname,
+      birthday: UserStore.user.birthday,
+      biography: UserStore.user.biography,
+      dateOfRegistration: UserStore.user.dateOfRegistration
     })
+    // eslint-disable-next-line
   }, [])
 
   // const fetchInfo = () => {
@@ -53,7 +53,7 @@ function Settings() {
   // }
 
   const saveInfo = body => {
-    setIsLoad(true)
+    MainStore.setLoad(true)
     let token = localStorage.getItem('token')
 
     axios({
@@ -66,26 +66,26 @@ function Settings() {
     })
       .then(response => {
         if (response.data.authError === true) {
-          logout()
+          MainStore.logout()
         }
 
         if (response.data.success === true) {
-          setUser({
-            ...JSON.parse(JSON.stringify(user)),
+          UserStore.setUser({
+            ...JSON.parse(JSON.stringify(UserStore.user)),
             ...userInfo
           })
-          setIsLoad(false)
+          MainStore.setLoad(false)
         }
       })
       .catch(err => {
         console.log(err)
-        logout() //
+        MainStore.logout() //
       })
   }
 
   return (
     <div className="content">
-      {isLoad
+      {MainStore.isLoad
         ? <Loader />
         : <>
           <div className="settings">
@@ -150,6 +150,6 @@ function Settings() {
       }
     </div>
   )
-}
+})
 
 export default Settings

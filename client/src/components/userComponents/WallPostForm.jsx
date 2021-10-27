@@ -2,11 +2,10 @@ import React, { useContext, useRef } from 'react'
 import PostInput from '../UI/PostInput'
 import axios from 'axios'
 import GlobalContext from '../../context/GlobalContext'
-import UserContext from '../../context/UserContext'
+import { observer } from 'mobx-react-lite'
 
-function WallPostForm() {
-  const { logout } = useContext(GlobalContext)
-  const { user, setUser } = useContext(UserContext)
+const WallPostForm = observer(() => {
+  const { MainStore, UserStore } = useContext(GlobalContext)
   const description = useRef()
 
   const sendPost = () => {
@@ -20,22 +19,29 @@ function WallPostForm() {
     })
       .then(response => {
         if (response.data.authError === true) {
-          logout()
+          MainStore.logout()
         }
 
         if (response.data.success === false) {
           alert('someone is false')
         } else if (response.data.success === true) {
-          let copy = JSON.parse(JSON.stringify(user))
-          setUser({
-            ...copy,
-            posts: [...copy.posts, {
-              author: user.name,
-              date: Date.now(),
-              content: description.current.innerText,
-              id: response.data.postId
-            }]
-          })
+          UserStore.setUserAttr('posts', [...UserStore.posts, {
+            author: UserStore.user.name,
+            date: Date.now(),
+            content: description.current.innerText,
+            id: response.data.postId
+          }])
+
+          // let copy = JSON.parse(JSON.stringify(user))
+          // setUser({
+          //   ...copy,
+          //   posts: [...copy.posts, {
+          //     author: user.name,
+          //     date: Date.now(),
+          //     content: description.current.innerText,
+          //     id: response.data.postId
+          //   }]
+          // })
           description.current.innerText = ''
         }
       })
@@ -59,6 +65,6 @@ function WallPostForm() {
       />
     </div>
   )
-}
+})
 
 export default WallPostForm

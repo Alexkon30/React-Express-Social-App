@@ -1,21 +1,21 @@
-import React, { useContext, useState, useEffect, useRef } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import Loader from './Loader'
 import GlobalContext from '../../context/GlobalContext'
-import UserContext from '../../context/UserContext'
 import axios from 'axios'
 import Person from '../UI/Person'
+import { observer } from 'mobx-react-lite'
 
-function People() {
-  const { logout } = useContext(GlobalContext)
-  const { isLoad, setIsLoad } = useContext(UserContext)
+const People = observer(() => {
+  const { MainStore } = useContext(GlobalContext)
   const [people, setPeople] = useState([])
 
   useEffect(() => {
     usersAxios()
+    // eslint-disable-next-line
   }, [])
 
   function usersAxios() {
-    setIsLoad(true)
+    MainStore.setLoad(true)
     let token = localStorage.getItem('token')
 
     axios({
@@ -27,20 +27,20 @@ function People() {
         //console.log(response.data)
         if (response.data.authError === true) {
           console.log(response.data.message)
-          logout()
+          MainStore.logout()
         }
-        setIsLoad(false)
+        MainStore.setLoad(false)
         setPeople(response.data.users)
       })
       .catch(err => {
         console.log(err.response.data.message)
-        logout() //
+        MainStore.logout() //
       })
   }
 
   return (
     <div className="content">
-      {isLoad ?
+      {MainStore.isLoad ?
         <Loader />
         : <>
           <div className="search">
@@ -55,6 +55,6 @@ function People() {
       }
     </div>
   )
-}
+})
 
 export default People

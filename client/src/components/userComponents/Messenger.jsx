@@ -1,20 +1,22 @@
 import React, { useContext, useEffect } from 'react'
 import Loader from './Loader'
 import Dialog from '../UI/Dialog'
-import UserContext from '../../context/UserContext'
+import GlobalContext from '../../context/GlobalContext'
+import { observer } from 'mobx-react-lite'
 
-function Messenger() {
-  const { setIsLoad, isLoad, user, setClient, setMessages } = useContext(UserContext)
+const Messenger = observer(() => {
+  const { MainStore, UserStore, ClientStore } = useContext(GlobalContext)
 
   useEffect(() => {
     return () => {
-      setIsLoad(false)
+      MainStore.setLoad(false)
     }
+    // eslint-disable-next-line
   }, [])
 
   const setPartner = dialog => {
-    setIsLoad(true)
-    setClient({ ...dialog, id: dialog.partnerId })
+    MainStore.setLoad(true)
+    ClientStore.setClient({ ...dialog, id: dialog.partnerId })
 
     //загрузить сообщения 
     fetch(`http://localhost:5000/messenger/`, {
@@ -31,24 +33,24 @@ function Messenger() {
       .then(response => {
         console.log(response)
         if (response.success === 'true') {
-          setMessages(response.messages)
+          MainStore.setMessages(response.messages)
         }
       })
       .catch(err => console.log(err))
-    setIsLoad(false)
+    MainStore.setLoad(false)
   }
 
   return (
     <div className="content">
-      {isLoad ?
+      {MainStore.isLoad ?
         <Loader />
         : <>
           <div className="search">
             search..
           </div>
           <div className="friends__list">
-            {user.dialogues.length
-              ? user.dialogues.map(dialog => <Dialog
+            {UserStore.user.dialogues.length
+              ? UserStore.user.dialogues.map(dialog => <Dialog
                 key={dialog.dialogId}
                 onClick={() => setPartner(dialog)}
                 {...dialog} />)
@@ -58,6 +60,6 @@ function Messenger() {
       }
     </div>
   )
-}
+})
 
 export default Messenger

@@ -1,17 +1,15 @@
-import React, { useState, useContext, useCallback, useEffect } from 'react'
-import UserContext from '../../context/UserContext'
+import React, { useState, useContext } from 'react'
 import axios from 'axios'
 import GlobalContext from '../../context/GlobalContext'
 import { Link } from 'react-router-dom'
-// import MainStore from '../../store/mainStore'
+import { observer } from 'mobx-react-lite'
 
-function Person(props) {
-  const { logout } = useContext(GlobalContext)
-  const { user, setUser, setIsLoad, setClient } = useContext(UserContext)
+const Person = observer((props) => {
+  const { MainStore, UserStore, ClientStore } = useContext(GlobalContext)
   const [isFriend, setIsFriend] = useState(checkFriend(props.id))
 
   function checkFriend(id) {
-    for (let friend of user.friends) {
+    for (let friend of UserStore.user.friends) {
       if (friend.friendId === props.id) {
         return true
       }
@@ -34,20 +32,20 @@ function Person(props) {
       .then(response => {
         if (response.data.authError === true) {
           console.log(response.data.message)
-          logout()
+          MainStore.logout()
         }
         if (response.data.success === true) {
           if (action === 'add') {
-            setUser({
-              ...JSON.parse(JSON.stringify(user)),
-              friends: [...user.friends, { name: props.name, surname: props.surname, friendId: props.id }]
+            UserStore.setUser({
+              ...JSON.parse(JSON.stringify(UserStore.user)),
+              friends: [...UserStore.user.friends, { name: props.name, surname: props.surname, friendId: props.id }]
             })
             // MainStore.UserStore.setUserAttr('friends', [...MainStore.UserStore.user.friends, { name: props.name, surname: props.surname, friendId: props.id }])
             setIsFriend(true)
           } else if (action === 'remove') {
-            setUser({
-              ...JSON.parse(JSON.stringify(user)),
-              friends: user.friends.filter(friend => friend.friendId !== id)
+            UserStore.setUser({
+              ...JSON.parse(JSON.stringify(UserStore.user)),
+              friends: UserStore.user.friends.filter(friend => friend.friendId !== id)
             })
             // MainStore.UserStore.setUserAttr('friends', MainStore.UserStore.user.friends.filter(friend => friend.friendId !== id))
             setIsFriend(false)
@@ -62,7 +60,7 @@ function Person(props) {
   }
 
   const getClientInfo = () => {
-    setClient({
+    ClientStore.setClient({
       name: props.name,
       surname: props.surname,
       id: props.id
@@ -94,6 +92,6 @@ function Person(props) {
 
     </div>
   )
-}
+})
 
 export default Person

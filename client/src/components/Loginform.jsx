@@ -15,7 +15,6 @@ const Loginform = observer(() => {
       .then(response => {
         // console.log(response)
         if (response.data.success) {
-          console.log('success')
           MainStore.login(response.data.token, JSON.stringify({ username: response.data.username }))
         }
       })

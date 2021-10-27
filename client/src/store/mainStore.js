@@ -15,7 +15,6 @@ class MainStore {
 
   messages = []
   mode = 'login'
-  // isAuth = false
   isLoad = false
   token = ''
 
