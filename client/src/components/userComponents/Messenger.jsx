@@ -19,7 +19,7 @@ const Messenger = observer(() => {
     ClientStore.setClient({ ...dialog, id: dialog.partnerId })
 
     //загрузить сообщения 
-    fetch(`http://localhost:5000/messenger/`, {
+    fetch(`http://192.168.1.5:5000/messenger/`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -41,7 +41,8 @@ const Messenger = observer(() => {
   }
 
   return (
-    <div className="content">
+    // <div className="content">
+    <>
       {MainStore.isLoad ?
         <Loader />
         : <>
@@ -58,7 +59,8 @@ const Messenger = observer(() => {
           </div>
         </>
       }
-    </div>
+    </>
+    // </div>
   )
 })
 

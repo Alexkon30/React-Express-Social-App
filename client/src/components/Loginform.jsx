@@ -11,14 +11,14 @@ const Loginform = observer(() => {
 
   const loginAxios = body => {
     console.log(body)
-    axios.post('http://localhost:5000/login', body)
+    axios.post('http://192.168.1.5:5000/login', body)
       .then(response => {
-        // console.log(response)
+        console.log(response)
         if (response.data.success) {
           MainStore.login(response.data.token, JSON.stringify({ username: response.data.username }))
         }
       })
-      .catch(err => console.log(err))
+      .catch(err => console.log(err, err.message))
   }
 
   useEffect(() => {

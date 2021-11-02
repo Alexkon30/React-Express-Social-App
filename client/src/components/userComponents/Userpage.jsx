@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom'
 import Userwall from './Userwall'
 import WallPostForm from './WallPostForm'
 import { observer } from 'mobx-react-lite'
+import { Box } from '@mui/material'
 
 const UserPage = observer(() => {
   const { MainStore, UserStore } = useContext(GlobalContext)
@@ -20,7 +21,7 @@ const UserPage = observer(() => {
     let token = localStorage.getItem('token')
 
     axios({
-      url: 'http://localhost:5000/user/',
+      url: 'http://192.168.1.5:5000/user/',
       method: 'get',
       headers: { 'Authorization': `Bearer ${token}` },
     })
@@ -40,23 +41,26 @@ const UserPage = observer(() => {
   }
 
   return (
-    <div className="content">
-      {MainStore.isLoad ?
-        <Loader />
-        : <><div className="user__header">
-          <div className="user__photo">Photo</div>
-          <div className="user__description">
-            <div className="user__name">{UserStore.user.name} {UserStore.user.surname}</div>
-            <div className="user__biography">{UserStore.user.biography}</div>
-            <div className="user__birthday">{UserStore.user.birthday}</div>
-            <Link to="/settings" className="user__change">Change user info</Link>
+    // <div className="content">
+    <>
+      {
+        MainStore.isLoad ?
+          <Loader />
+          : <><div className="user__header">
+            <div className="user__photo">Photo</div>
+            <div className="user__description">
+              <div className="user__name">{UserStore.user.name} {UserStore.user.surname}</div>
+              <div className="user__biography">{UserStore.user.biography}</div>
+              <div className="user__birthday">{UserStore.user.birthday}</div>
+              <Link to="/settings" className="user__change">Change user info</Link>
+            </div>
           </div>
-        </div>
-          <WallPostForm />
-          <Userwall />
-        </>
+            <WallPostForm />
+            <Userwall />
+          </>
       }
-    </div>
+    </>
+    // </div>
   )
 })
 

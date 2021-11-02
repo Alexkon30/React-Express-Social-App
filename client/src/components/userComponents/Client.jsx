@@ -8,14 +8,16 @@ const Client = observer(() => {
 
 
   return (
-    <div className="content">
+    // <div className="content">
+    <>
       {MainStore.isLoad
         ? <Loader />
         : <div>
           {ClientStore.client.name} {ClientStore.client.surname}
         </div>
       }
-    </div>
+    </>
+    // </div>
   )
 })
 

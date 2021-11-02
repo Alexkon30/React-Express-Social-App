@@ -20,7 +20,7 @@ const Registerform = observer(() => {
   }, []);
 
   const registerFetch = (body) => {
-    fetch('http://localhost:5000/register', {
+    fetch('http://192.168.1.5:5000/register', {
       method: "POST",
       headers: {
         'Content-Type': 'application/json'
@@ -51,14 +51,14 @@ const Registerform = observer(() => {
         Sign up
       </Typography>
       <TextField
-        margin="normal"
+        sx={{ mt: 1 }}
         fullWidth
         label="Username"
         value={FormStore.form.username}
         onChange={(e) => FormStore.setAttr('username', e.target.value)}
       />
       <TextField
-        margin="normal"
+        sx={{ mt: 1 }}
         fullWidth
         label="Email Address"
         autoComplete="email"
@@ -66,7 +66,7 @@ const Registerform = observer(() => {
         onChange={(e) => FormStore.setAttr('email', e.target.value)}
       />
       <TextField
-        margin="normal"
+        sx={{ mt: 1 }}
         fullWidth
         label="Password"
         type="password"
@@ -74,7 +74,7 @@ const Registerform = observer(() => {
         onChange={(e) => FormStore.setAttr('password', e.target.value)}
       />
       <TextField
-        margin="normal"
+        sx={{ mt: 1 }}
         fullWidth
         label="Confirm password"
         type="password"
@@ -95,7 +95,7 @@ const Registerform = observer(() => {
         fullWidth
         variant="contained"
         disabled={!FormStore.form.agreement}
-        sx={{ mt: 3, mb: 2 }}
+        sx={{ mt: 1, mb: 2 }}
         onClick={() => console.log({ ...FormStore.form })}
       >
         Sign Up

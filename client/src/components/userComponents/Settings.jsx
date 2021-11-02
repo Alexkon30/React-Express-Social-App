@@ -2,8 +2,10 @@ import React, { useEffect, useContext, useState } from 'react'
 import Loader from './Loader'
 import axios from 'axios'
 import GlobalContext from '../../context/GlobalContext'
-import Input from '../UI/Input'
 import { observer } from 'mobx-react-lite'
+import { Box, Divider, Grid, TextField, Typography, Button } from '@mui/material'
+// import { MobileDatePicker, LocalizationProvider } from '@mui/lab'
+// import DateAdapter from '@mui/lab/AdapterDateFns'
 
 const Settings = observer(() => {
   const { MainStore, UserStore } = useContext(GlobalContext)
@@ -27,31 +29,6 @@ const Settings = observer(() => {
     // eslint-disable-next-line
   }, [])
 
-  // const fetchInfo = () => {
-  //   setIsLoad(true)
-  //   let token = localStorage.getItem('token')
-  //   axios({
-  //     url: 'http://localhost:5000/user/settings',
-  //     method: 'get',
-  //     headers: { 'Authorization': `Bearer ${token}` },
-  //   })
-  //     .then(response => {
-  //       //console.log(response.data)
-  //       if (response.data.authError === true) {
-  //         logout()
-  //       }
-  //       setUser({
-  //         ...JSON.parse(JSON.stringify(user)),
-  //         ...userInfo
-  //       })
-  //       setIsLoad(false)
-  //     })
-  //     .catch(err => {
-  //       console.log(err)
-  //       // logout()
-  //     })
-  // }
-
   const saveInfo = body => {
     MainStore.setLoad(true)
     let token = localStorage.getItem('token')
@@ -74,81 +51,143 @@ const Settings = observer(() => {
             ...JSON.parse(JSON.stringify(UserStore.user)),
             ...userInfo
           })
-          MainStore.setLoad(false)
         }
       })
       .catch(err => {
         console.log(err)
         MainStore.logout() //
       })
+      .finally(() => {
+        MainStore.setLoad(false)
+      })
   }
 
   return (
-    <div className="content">
+    <>
       {MainStore.isLoad
         ? <Loader />
-        : <>
-          <div className="settings">
-            <Input
-              input={{
-                type: "text",
-                value: userInfo.name,
-                onChange: (e) => setUserInfo({ ...userInfo, name: e.target.value }),
-              }}
-              label="Name"
-              name="user_name"
-              className="settings__field"
-            />
-            <Input
-              input={{
-                type: "text",
-                value: userInfo.surname,
-                onChange: (e) => setUserInfo({ ...userInfo, surname: e.target.value }),
-              }}
-              label="Surname"
-              name="user_surname"
-              className="settings__field"
-            />
-            <Input
-              input={{
-                type: "date",
-                value: userInfo.birthday,
-                onChange: (e) => setUserInfo({ ...userInfo, birthday: e.target.value }),
-              }}
-              label="Birthday"
-              name="user_birthday"
-              className="settings__field"
-            />
-            <Input
-              input={{
-                type: "text",
-                value: userInfo.dateOfRegistration,
-                disabled: true
-              }}
-              label="Date of registration"
-              name="user_registration"
-              className="settings__field"
-            />
-            <div className="settings__field">
-              <label htmlFor="user_biography">Biography</label>
-              <textarea
-                name="user_biography"
-                value={userInfo.biography}
-                onChange={(e) => setUserInfo({ ...userInfo, biography: e.target.value })}
-              ></textarea>
-            </div>
-          </div>
-          <div className="save__btn">
-            <Input
-              input={{
-                type: 'submit',
-                value: 'Save',
-                onClick: () => saveInfo(userInfo)
-              }} />
-          </div>
-        </>
+        :
+        <Grid container spacing={5}>
+          <Grid item xs={8} sx={{
+            // border: '1px solid blue'
+          }}>
+            <Box sx={{
+              display: 'flex',
+              flexDirection: 'column'
+            }}>
+              <Typography variant='h6' component='span'>Main</Typography>
+              <Divider />
+              <Box>
+                {/* name */}
+                <Grid container spacing={1} mt={1}>
+                  <Grid item xs={4}
+                    display='flex'
+                    justifyContent='flex-end'
+                    alignItems='center'>
+                    <Typography variant='body1' component='span'>Name:</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      size='small'
+                      fullWidth
+                      value={userInfo.name}
+                      onChange={(e) => setUserInfo({ ...userInfo, name: e.target.value })}
+                    ></TextField>
+                  </Grid>
+                </Grid>
+                {/* surname */}
+                <Grid container spacing={1} mt={1}>
+                  <Grid item xs={4}
+                    display='flex'
+                    justifyContent='flex-end'
+                    alignItems='center'>
+                    <Typography variant='body1' component='span'>Surname:</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      size='small'
+                      fullWidth
+                      value={userInfo.surname}
+                      onChange={(e) => setUserInfo({ ...userInfo, surname: e.target.value })}
+                    ></TextField>
+                  </Grid>
+                </Grid>
+                {/* birth */}
+                <Grid container spacing={1} mt={1}>
+                  <Grid item xs={4}
+                    display='flex'
+                    justifyContent='flex-end'
+                    alignItems='center'>
+                    <Typography variant='body1' component='span'>Birth:</Typography>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <TextField
+                      size='small'
+                      type='date'
+                      fullWidth
+                      value={userInfo.birthday}
+                      onChange={(e) => setUserInfo({ ...userInfo, birthday: e.target.value })}
+                    ></TextField>
+                  </Grid>
+                </Grid>
+                {/* bio */}
+                <Grid container spacing={1} mt={1}>
+                  <Grid item xs={4}
+                    display='flex'
+                    justifyContent='flex-end'
+                    alignItems='center'>
+                    <Typography variant='body1' component='span'>Hobbies:</Typography>
+                  </Grid>
+                  <Grid item xs={6} >
+                    <TextField
+                      size='small'
+                      fullWidth
+                      multiline
+                      placeholder="Your hobbies"
+                      minRows={3}
+                      value={userInfo.biography}
+                      onChange={(e) => setUserInfo({ ...userInfo, biography: e.target.value })}
+                    ></TextField>
+                  </Grid>
+                </Grid>
+                {/* register */}
+                <Grid container spacing={1} mt={1}>
+                  <Grid item xs={4}
+                    display='flex'
+                    justifyContent='flex-end'
+                    alignItems='center'>
+                    <Typography variant='body1' component='span'>Date of registrarion:</Typography>
+                  </Grid>
+                  <Grid item xs={6} >
+                    <TextField
+                      size='small'
+                      fullWidth
+                      value={userInfo.dateOfRegistration}
+                      disabled
+                    ></TextField>
+                  </Grid>
+                </Grid>
+              </Box>
+              <Button
+                variant='contained'
+                onClick={() => saveInfo(userInfo)}
+                sx={{
+                  width: '25%',
+                  alignSelf: 'center',
+                  mt: '20px',
+                  mb: '30px'
+                }}>Save</Button>
+            </Box>
+            <Divider />
+          </Grid>
+          <Grid item xs={4} sx={{
+            // border: '1px solid blue'
+          }}>
+            settings tabs
+          </Grid>
+        </Grid>
       }
-    </div>
+    </>
   )
 })
 

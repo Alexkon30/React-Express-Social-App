@@ -7,7 +7,7 @@ import './styles/App.css'
 import Navbar from './components/Navbar'
 import MainStore from './store/mainStore.js'
 import { observer } from 'mobx-react-lite'
-import { Box } from '@mui/material'
+import { Box, Grid } from '@mui/material'
 
 const App = observer(() => {
   // const { login, logout, token } = useAuth();
@@ -24,14 +24,17 @@ const App = observer(() => {
       UserStore: MainStore.UserStore,
     }}>
       <Router>
-        <Box sx={{
-          // border: '3px solid red',
-          backgroundColor: 'white',
-          minHeight: '100vh'
-        }}>
+        <Grid container
+          direction='column'
+          sx={{
+            // border: '3px solid red',
+            minHeight: '100vh',
+            minWidth: '400px',
+            // gridTemplateRows: 'auto 1fr',
+          }}>
           <Navbar />
           <Routes />
-        </Box>
+        </Grid>
       </Router>
     </GlobalContext.Provider >
   );

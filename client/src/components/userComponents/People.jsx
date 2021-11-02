@@ -39,7 +39,8 @@ const People = observer(() => {
   }
 
   return (
-    <div className="content">
+    // <div className="content">
+    <>
       {MainStore.isLoad ?
         <Loader />
         : <>
@@ -53,7 +54,8 @@ const People = observer(() => {
           </div>
         </>
       }
-    </div>
+    </>
+    // {/* </div> */ }
   )
 })
 

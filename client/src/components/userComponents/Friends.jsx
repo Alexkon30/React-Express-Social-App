@@ -9,7 +9,8 @@ const Friends = observer(() => {
   const { MainStore, UserStore } = useContext(GlobalContext)
 
   return (
-    <div className="content">
+    // <div className="content">
+    <>
       {MainStore.isLoad ?
         <Loader />
         : <>
@@ -26,7 +27,8 @@ const Friends = observer(() => {
           </div>
         </>
       }
-    </div>
+    </>
+    // </div>
   )
 })
 
