@@ -26,6 +26,7 @@ class socketController {
 
     if (message) {
       let author = await User.findById(msg.from)
+      console.log('emit message')
       io.sockets.emit('message', {
         action: 'new dialog message',
         content: message.content,

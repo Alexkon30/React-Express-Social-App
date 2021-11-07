@@ -11,17 +11,15 @@ import People from './components/userComponents/People'
 import DialogPage from './components/userComponents/DialogPage'
 import Client from './components/userComponents/Client'
 import GlobalContext from './context/GlobalContext'
-import { Box, Container, Grid } from '@mui/material'
+import { Container, Grid } from '@mui/material'
 import { observer } from 'mobx-react-lite'
-
-console.log(Container)
 
 
 const Routes = observer(() => {
   const { MainStore } = useContext(GlobalContext)
 
   return (
-    <Grid item pt={6} xs
+    <Grid item pt={1} xs
       sx={{
         // border: '3px solid green',
         display: 'flex',
@@ -31,20 +29,21 @@ const Routes = observer(() => {
       <Switch>
         {MainStore.isAuth ?
           <Grid container
-            // spacing={2}
-            // columns={{ xs: 4, sm: 8, md: 12 }}
             maxWidth='1366px'
           >
-            <Grid item component="aside" xs={3}
+            <Grid item component="aside" md={3}
               sx={{
-                border: '1px solid blue',
-                padding: '6px'
+                // border: '1px solid blue',
+                padding: '6px',
+                '@media (max-width: 900px)': {
+                  display: 'none'
+                }
               }}>
               <Aside />
             </Grid>
-            <Grid item component="main" xs={9}
+            <Grid item component="main" md={9} sm={12}
               sx={{
-                border: '1px solid green',
+                // border: '1px solid green',
                 padding: '6px'
               }}>
               <Route path="/user" component={UserPage} />
@@ -56,13 +55,6 @@ const Routes = observer(() => {
               <Route path="/messenger/:id" component={DialogPage} />
               <Redirect to="/user" />
             </Grid>
-            {/* <Grid item component="aside" xs={3}
-              sx={{
-                border: '1px solid red',
-                padding: '6px'
-              }}>
-              Right aside
-            </Grid> */}
           </Grid>
           :
           <Container component="main" maxWidth="xs" sx={{

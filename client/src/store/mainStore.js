@@ -3,7 +3,11 @@ import FormStore from './formStore'
 import UserStore from './userStore'
 import ClientStore from './clientStore'
 
-class MainStore {
+export default class MainStore {
+  messages = []
+  mode = 'login'
+  isLoad = false
+  token = ''
 
   constructor() {
     makeAutoObservable(this)
@@ -13,13 +17,8 @@ class MainStore {
   UserStore = new UserStore()
   ClientStore = new ClientStore()
 
-  messages = []
-  mode = 'login'
-  isLoad = false
-  token = ''
-
   get isAuth() {
-    return Boolean(this.token)
+    return !!this.token
   }
 
   login(newToken, user) {
@@ -52,6 +51,7 @@ class MainStore {
   }
 
   addMessage(msgObj) {
+    console.log('push')
     this.messages.push(msgObj)
   }
 
@@ -63,5 +63,3 @@ class MainStore {
     this.messages = newMessagesArray
   }
 }
-
-export default new MainStore()

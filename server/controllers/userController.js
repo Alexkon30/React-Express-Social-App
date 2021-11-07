@@ -19,7 +19,9 @@ class userController {
           dateOfRegistration: result.dateOfRegistration,
           friends: [],
           dialogues: [],
-          posts: []
+          posts: [],
+          phone: result.phone,
+          site: result.site
         }
 
         //готовим список друзей
@@ -129,7 +131,9 @@ class userController {
       name: req.body.name,
       surname: req.body.surname,
       birthday: req.body.birthday,
-      biography: req.body.biography
+      biography: req.body.biography,
+      phone: req.body.phone,
+      site: req.body.site
     })
       .then(result => {
         res.json({ success: true })

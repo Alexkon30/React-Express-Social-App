@@ -12,7 +12,9 @@ const User = new mongoose.Schema({
   friends: [String],
   dialogues: [String],
   avatar: { type: String },
-  biography: { type: String, default: 'biography text' }
+  biography: { type: String, default: 'biography text' },
+  phone: { type: String },
+  site: { type: String }
 }, { versionKey: false })
 
 

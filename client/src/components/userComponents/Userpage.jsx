@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom'
 import Userwall from './Userwall'
 import WallPostForm from './WallPostForm'
 import { observer } from 'mobx-react-lite'
-import { Box } from '@mui/material'
+// import { Box } from '@mui/material'
 
 const UserPage = observer(() => {
   const { MainStore, UserStore } = useContext(GlobalContext)

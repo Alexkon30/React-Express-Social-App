@@ -10,7 +10,7 @@ const WallPostForm = observer(() => {
 
   const sendPost = () => {
     axios({
-      url: 'http://localhost:5000/user/sendPost',
+      url: 'http://192.168.1.5:5000/user/sendPost',
       method: 'post',
       headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
       data: {

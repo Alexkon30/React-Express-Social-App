@@ -15,7 +15,9 @@ export default class UserStore {
     dateOfRegistration: '',
     dialogues: [],
     posts: [],
-    friends: []
+    friends: [],
+    phone: '',
+    site: ''
   }
 
   setUserAttr(attr, value) {
@@ -36,7 +38,9 @@ export default class UserStore {
       dateOfRegistration: '',
       dialogues: [],
       posts: [],
-      friends: []
+      friends: [],
+      phone: '',
+      site: ''
     }
   }
 }
