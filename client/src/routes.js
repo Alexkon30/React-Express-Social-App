@@ -11,7 +11,7 @@ import People from './components/userComponents/People'
 import DialogPage from './components/userComponents/DialogPage'
 import Client from './components/userComponents/Client'
 import GlobalContext from './context/GlobalContext'
-import { Container, Grid } from '@mui/material'
+import { Container, Grid, Box } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 
 
@@ -24,7 +24,7 @@ const Routes = observer(() => {
         // border: '3px solid green',
         display: 'flex',
         justifyContent: 'center',
-        bgcolor: '#F1F2F4',
+        height: '100%',
       }}>
       <Switch>
         {MainStore.isAuth ?
@@ -44,7 +44,10 @@ const Routes = observer(() => {
             <Grid item component="main" md={9} sm={12}
               sx={{
                 // border: '1px solid green',
-                padding: '6px'
+                // padding: '6px',
+                // display: 'block'
+                // position: 'relative',
+                // height: '100%'
               }}>
               <Route path="/user" component={UserPage} />
               <Route path="/people" exact component={People} />

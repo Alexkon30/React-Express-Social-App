@@ -1,70 +1,82 @@
-import React, { useContext, useState, useCallback } from 'react'
+import React, { useContext, useState, useRef, useEffect } from 'react'
 import { Link as ReactLink } from 'react-router-dom'
 import GlobalContext from '../../context/GlobalContext'
 import Message from '../UI/Message'
 // import Loader from './Loader'
-import socket from '../../socket'
 import { observer } from 'mobx-react-lite'
 import { Grid, Typography, Box, TextField, Button } from '@mui/material'
-import PetsIcon from '@mui/icons-material/Pets';
+import PetsIcon from '@mui/icons-material/Pets'
 
 
 const DialogPage = observer(() => {
-  const { MainStore, UserStore, ClientStore } = useContext(GlobalContext)
+  const { MainStore, UserStore, ClientStore, socket } = useContext(GlobalContext)
   const [messageText, setMessageText] = useState('')
-  const [localMessages, setMessages] = useState([])
+  const socketRef = useRef(null)
+  const messagesEndRef = useRef(null)
 
-  // useEffect(() => {
-  //   console.log('new message')
-  //   // setMessages(MainStore.messages)
-  // }, [localMessages])
+  useEffect(() => {
+    socketRef.current = socket
+
+    socketRef.current.on('message', msg => {
+      console.log('msg action')
+      if (msg.action === 'new dialog message' && msg.dialogId === ClientStore.client.dialogId) {
+        MainStore.addMessage({
+          content: msg.content,
+          date: msg.date,
+          author: msg.author,
+          id: msg.id
+        })
+
+        messagesEndRef.current?.scrollIntoView({
+          behavior: 'smooth'
+        })
+      }
+    })
+
+    return () => {
+      // при размонтировании компонента выполняем отключение сокета
+      socketRef.current.disconnect()
+    }
+    // eslint-disable-next-line
+  }, [])
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: 'smooth'
+    })
+  }, [MainStore.messages])
 
 
-  const sendMessage = useCallback((content, from, to) => {
+  const sendMessage = (content, from, to) => {
     console.log('send')
-    socket.send({
+    socketRef.current.send({
       action: 'send',
       content,
       from,
       to
     });
-    // setMessages([...localMessages, {
-    //   action: 'send',
-    //   content,
-    //   from,
-    //   to
-    // }])
-    // eslint-disable-next-line
-  }, [localMessages])
-
-  socket.on('message', msg => {
-    if (msg.action === 'new dialog message' && msg.dialogId === ClientStore.client.dialogId) {
-      MainStore.addMessage({
-        content: msg.content,
-        date: msg.date,
-        author: msg.author,
-        id: msg.id
-      })
-    }
-  })
+  }
 
   return (
     <Grid container sx={{
       height: '100%',
-      pb: '10px'
+      // border: '1px solid red',
     }}>
       <Grid item xs={8} sx={{
         // border: '1px solid red',
-        display: 'flex',
+        display: 'grid',
+        gridTemplateRows: 'auto 1fr auto',
         flexDirection: 'column',
         '& .MuiBox-root + *': {
           mt: '10px'
-        }
+        },
+        maxHeight: '86vh',
+        minHeight: '500px'
       }}>
 
         {/* Header */}
         <Box sx={{
-          // border: '1px solid yellow',
+          border: '1px solid yellow',
           bgcolor: 'white',
           borderRadius: '5px',
           p: '10px',
@@ -85,29 +97,27 @@ const DialogPage = observer(() => {
 
         {/* Messages */}
         <Box sx={{
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'flex-end',
-          alignItems: 'stretch',
+          // height: '57vh',
           overflowY: 'auto',
           bgcolor: 'white',
-          borderRadius: '5px'
+          borderRadius: '5px',
         }}>
           {MainStore.messages.length
             ? MainStore.messages.map((message, index) => <Message key={index} {...message} />)
             : <Typography>No messages</Typography>
           }
+          <span ref={messagesEndRef}></span>
         </Box>
         {/* Messages */}
 
         {/* Footer */}
         <Box sx={{
-          // border: '1px solid yellow',
+          border: '1px solid yellow',
           textAlign: 'center',
           p: '25px',
           bgcolor: 'white',
-          borderRadius: '5px'
+          borderRadius: '5px',
+          mb: '15px'
         }}>
           <TextField
             size='small'

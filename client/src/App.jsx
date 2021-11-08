@@ -7,7 +7,8 @@ import Navbar from './components/Navbar'
 import MainStore from './store/mainStore.js'
 import { observer } from 'mobx-react-lite'
 import { Grid } from '@mui/material'
-import { createTheme, ThemeProvider } from '@mui/material/styles';
+import { createTheme, ThemeProvider } from '@mui/material/styles'
+import socket from './socket'
 
 const theme = createTheme({
   palette: {
@@ -31,6 +32,7 @@ const App = observer(() => {
       FormStore: mainStore.FormStore,
       ClientStore: mainStore.ClientStore,
       UserStore: mainStore.UserStore,
+      socket
     }}>
       <Router>
         <ThemeProvider theme={theme}>
@@ -40,6 +42,7 @@ const App = observer(() => {
               // border: '3px solid red',
               minHeight: '100vh',
               minWidth: '320px',
+              bgcolor: '#F1F2F4',
             }}>
             <Navbar />
             <Routes />
