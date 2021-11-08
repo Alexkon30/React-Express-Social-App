@@ -1,24 +1,14 @@
 import React, { useContext } from 'react'
 import { Link as ReactLink } from 'react-router-dom'
 import GlobalContext from '../context/GlobalContext'
-import { Box, Button, Link, Avatar, AppBar, Toolbar, Grid, Container } from '@mui/material'
+import { Box, Button, Link, Avatar, AppBar, Toolbar, Container } from '@mui/material'
 import { observer } from 'mobx-react-lite'
-// import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-// const theme = createTheme({
-//   palette: {
-//     primary: {
-//       main: '#363C42',
-//     }
-//   }
-// });
 
 const Navbar = observer(() => {
   const { MainStore } = useContext(GlobalContext)
 
   return (
-    // <ThemeProvider theme={theme}>
-    // <Grid item>
     <AppBar position='static' color='primary'>
       <Container maxWidth='xl'>
         <Toolbar >
@@ -59,8 +49,6 @@ const Navbar = observer(() => {
         </Toolbar>
       </Container>
     </AppBar >
-    // </Grid>
-    // </ThemeProvider>
   )
 })
 

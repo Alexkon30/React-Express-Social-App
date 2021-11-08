@@ -41,7 +41,6 @@ const UserPage = observer(() => {
   }
 
   return (
-    // <div className="content">
     <>
       {
         MainStore.isLoad ?
@@ -60,7 +59,6 @@ const UserPage = observer(() => {
           </>
       }
     </>
-    // </div>
   )
 })
 

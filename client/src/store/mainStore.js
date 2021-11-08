@@ -51,7 +51,6 @@ export default class MainStore {
   }
 
   addMessage(msgObj) {
-    // console.log('push')
     this.messages.push(msgObj)
   }
 

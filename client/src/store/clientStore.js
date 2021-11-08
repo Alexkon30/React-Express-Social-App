@@ -14,7 +14,8 @@ export default class ClientStore {
     birthday: '',
     dateOfRegistration: '',
     posts: [],
-    friends: []
+    friends: [],
+    dialogId: ''
   }
 
   setClientAttr(attr, value) {
@@ -34,7 +35,8 @@ export default class ClientStore {
       birthday: '',
       dateOfRegistration: '',
       posts: [],
-      friends: []
+      friends: [],
+      dialogId: ''
     }
   }
 }

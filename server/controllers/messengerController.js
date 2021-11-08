@@ -13,12 +13,13 @@ class messengerController {
       .then(async result => {
         let messages = []
         for (let message of result) {
-          let author = await User.findById(message.author)
+          let author = await User.findById(message.authorId)
           messages.push({
             content: message.content,
             date: message.date,
-            author: author.name,
-            id: message.id
+            authorName: author.name,
+            authorId: author.id,
+            id: message.id,
           })
         }
         res.send(JSON.stringify({ messages, success: 'true' }))

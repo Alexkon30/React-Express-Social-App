@@ -3,7 +3,7 @@ import Loader from './Loader'
 import Dialog from '../UI/Dialog'
 import GlobalContext from '../../context/GlobalContext'
 import { observer } from 'mobx-react-lite'
-import { Box, Grid, TextField, InputAdornment } from '@mui/material'
+import { Box, Grid, TextField, InputAdornment, Typography } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
 
 
@@ -36,13 +36,13 @@ const Messenger = observer(() => {
     })
       .then(result => result.json())
       .then(response => {
-        console.log(response)
+        // console.log(response)
         if (response.success === 'true') {
           MainStore.setMessages(response.messages)
         }
       })
       .catch(err => console.log(err))
-    MainStore.setLoad(false)
+      .finally(() => MainStore.setLoad(false))
   }
 
   return (
@@ -88,7 +88,7 @@ const Messenger = observer(() => {
                   key={dialog.dialogId}
                   onClick={() => setPartner(dialog)}
                   {...dialog} />)
-                : <div>No dialogues</div>}
+                : <Typography>No dialogues</Typography>}
             </Box>
           </Grid>
         </Grid>

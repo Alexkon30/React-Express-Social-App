@@ -11,7 +11,7 @@ import People from './components/userComponents/People'
 import DialogPage from './components/userComponents/DialogPage'
 import Client from './components/userComponents/Client'
 import GlobalContext from './context/GlobalContext'
-import { Container, Grid, Box } from '@mui/material'
+import { Container, Grid } from '@mui/material'
 import { observer } from 'mobx-react-lite'
 
 

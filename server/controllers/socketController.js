@@ -21,17 +21,19 @@ class socketController {
       dialogId: dialog[0].id,
       content: msg.content,
       date: Date.now(),
-      author: msg.from
+      authorId: msg.from
     })
+    // console.log(message)
 
     if (message) {
       let author = await User.findById(msg.from)
-      console.log('emit message')
+      // console.log(author)
       io.sockets.emit('message', {
         action: 'new dialog message',
         content: message.content,
         date: message.date,
-        author: author.name,
+        authorName: author.name,
+        authorId: author.id,
         id: message.id,
         dialogId: message.dialogId
       })

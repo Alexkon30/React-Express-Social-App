@@ -2,7 +2,7 @@ import React, { useContext, useState, useRef, useEffect } from 'react'
 import { Link as ReactLink } from 'react-router-dom'
 import GlobalContext from '../../context/GlobalContext'
 import Message from '../UI/Message'
-// import Loader from './Loader'
+import Loader from './Loader'
 import { observer } from 'mobx-react-lite'
 import { Grid, Typography, Box, TextField, Button } from '@mui/material'
 import PetsIcon from '@mui/icons-material/Pets'
@@ -18,12 +18,14 @@ const DialogPage = observer(() => {
     socketRef.current = socket
 
     socketRef.current.on('message', msg => {
-      console.log('msg action')
+      // console.log('msg action')
       if (msg.action === 'new dialog message' && msg.dialogId === ClientStore.client.dialogId) {
+        // console.log('in action')
         MainStore.addMessage({
           content: msg.content,
           date: msg.date,
-          author: msg.author,
+          authorName: msg.authorName,
+          authorId: msg.authorId,
           id: msg.id
         })
 
@@ -55,6 +57,7 @@ const DialogPage = observer(() => {
       from,
       to
     });
+    setMessageText('')
   }
 
   return (
@@ -76,7 +79,7 @@ const DialogPage = observer(() => {
 
         {/* Header */}
         <Box sx={{
-          border: '1px solid yellow',
+          // border: '1px solid yellow',
           bgcolor: 'white',
           borderRadius: '5px',
           p: '10px',
@@ -101,18 +104,27 @@ const DialogPage = observer(() => {
           overflowY: 'auto',
           bgcolor: 'white',
           borderRadius: '5px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'flex-end',
+          p: '10px'
         }}>
-          {MainStore.messages.length
-            ? MainStore.messages.map((message, index) => <Message key={index} {...message} />)
-            : <Typography>No messages</Typography>
+          {MainStore.isLoad
+            ? <Loader />
+            : <>
+              {MainStore.messages.length
+                ? MainStore.messages.map((message, index) => <Message key={index} {...message} />)
+                : <Typography>No messages</Typography>
+              }
+              <span ref={messagesEndRef}></span>
+            </>
           }
-          <span ref={messagesEndRef}></span>
         </Box>
         {/* Messages */}
 
         {/* Footer */}
         <Box sx={{
-          border: '1px solid yellow',
+          // border: '1px solid yellow',
           textAlign: 'center',
           p: '25px',
           bgcolor: 'white',
@@ -143,7 +155,6 @@ const DialogPage = observer(() => {
         {/* Footer */}
 
       </Grid>
-
       <Grid item xs={4} sx={{
         // border: '1px solid blue',
       }}></Grid>
