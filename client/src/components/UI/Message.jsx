@@ -13,7 +13,8 @@ function Message(props) {
       p: '5px',
       // border: '1px solid red'
       bgcolor: '#F1F2F4',
-      borderRadius: '6px'
+      borderRadius: '6px',
+      maxWidth: '80%'
     }}>
       <Typography>{props.authorName} {props.date}</Typography>
       <Typography>{props.content}</Typography>
@@ -22,10 +23,3 @@ function Message(props) {
 }
 
 export default Message
-
-
-  // < div className = "message" >
-  //     <div className="message__header">{props.authorName} {props.date}</div>
-  //     <div className="message__content">{props.content}</div>
-  //   </div >
-

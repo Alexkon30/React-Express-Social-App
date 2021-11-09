@@ -18,9 +18,7 @@ const DialogPage = observer(() => {
     socketRef.current = socket
 
     socketRef.current.on('message', msg => {
-      // console.log('msg action')
       if (msg.action === 'new dialog message' && msg.dialogId === ClientStore.client.dialogId) {
-        // console.log('in action')
         MainStore.addMessage({
           content: msg.content,
           date: msg.date,
@@ -63,10 +61,8 @@ const DialogPage = observer(() => {
   return (
     <Grid container sx={{
       height: '100%',
-      // border: '1px solid red',
     }}>
       <Grid item xs={8} sx={{
-        // border: '1px solid red',
         display: 'grid',
         gridTemplateRows: 'auto 1fr auto',
         flexDirection: 'column',
@@ -79,7 +75,6 @@ const DialogPage = observer(() => {
 
         {/* Header */}
         <Box sx={{
-          // border: '1px solid yellow',
           bgcolor: 'white',
           borderRadius: '5px',
           p: '10px',
@@ -100,7 +95,6 @@ const DialogPage = observer(() => {
 
         {/* Messages */}
         <Box sx={{
-          // height: '57vh',
           overflowY: 'auto',
           bgcolor: 'white',
           borderRadius: '5px',
@@ -124,7 +118,6 @@ const DialogPage = observer(() => {
 
         {/* Footer */}
         <Box sx={{
-          // border: '1px solid yellow',
           textAlign: 'center',
           p: '25px',
           bgcolor: 'white',

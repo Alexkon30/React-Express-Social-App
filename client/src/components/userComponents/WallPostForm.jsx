@@ -1,20 +1,21 @@
-import React, { useContext, useRef } from 'react'
-import PostInput from '../UI/PostInput'
+import React, { useContext, useState } from 'react'
+// import PostInput from '../UI/PostInput'
 import axios from 'axios'
 import GlobalContext from '../../context/GlobalContext'
 import { observer } from 'mobx-react-lite'
+import { Box, Grid, TextField, Button } from '@mui/material'
 
 const WallPostForm = observer(() => {
   const { MainStore, UserStore } = useContext(GlobalContext)
-  const description = useRef()
+  const [postContent, setPostContent] = useState('')
 
-  const sendPost = () => {
+  const sendPost = (description) => {
     axios({
       url: 'http://192.168.1.5:5000/user/sendPost',
       method: 'post',
       headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
       data: {
-        description: description.current.innerText
+        description
       }
     })
       .then(response => {
@@ -25,45 +26,48 @@ const WallPostForm = observer(() => {
         if (response.data.success === false) {
           alert('someone is false')
         } else if (response.data.success === true) {
+          console.log('success')
           UserStore.setUserAttr('posts', [...UserStore.posts, {
             author: UserStore.user.name,
             date: Date.now(),
-            content: description.current.innerText,
+            content: description,
             id: response.data.postId
           }])
 
-          // let copy = JSON.parse(JSON.stringify(user))
-          // setUser({
-          //   ...copy,
-          //   posts: [...copy.posts, {
-          //     author: user.name,
-          //     date: Date.now(),
-          //     content: description.current.innerText,
-          //     id: response.data.postId
-          //   }]
-          // })
-          description.current.innerText = ''
+          setPostContent('')
         }
       })
       .catch(err => console.log(err.response))
   }
 
   return (
-    <div className="post__form">
-      <div
-        contentEditable='true'
-        role='textbox'
-        aria-multiline='true'
-        ref={description}
-        className="post__form__field"
-      />
-      <PostInput
-        type="button"
-        value="Send post"
-        onClick={sendPost}
-        className="post__form__btn"
-      />
-    </div>
+    <Box sx={{
+      mt: '30px',
+      bgcolor: 'white',
+      p: '20px',
+      borderRadius: '6px',
+    }}>
+      <Grid container spacing={1} sx={{
+        justifyContent: 'center',
+        alignItems: 'center'
+      }}>
+        <Grid item xs={10}>
+          <TextField
+            size='small'
+            fullWidth
+            multiline
+            placeholder="What's new?"
+            minRows={1}
+            value={postContent}
+            onChange={((e) => setPostContent(e.target.value))}
+          ></TextField>
+        </Grid>
+        <Grid item xs={2} fullWidth>
+          <Button variant='outlined' onClick={() => sendPost(postContent)}>Send</Button>
+        </Grid>
+      </Grid>
+    </Box>
+
   )
 })
 

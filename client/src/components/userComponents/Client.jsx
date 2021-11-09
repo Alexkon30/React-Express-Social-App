@@ -8,7 +8,6 @@ const Client = observer(() => {
 
 
   return (
-    // <div className="content">
     <>
       {MainStore.isLoad
         ? <Loader />
@@ -17,7 +16,6 @@ const Client = observer(() => {
         </div>
       }
     </>
-    // </div>
   )
 })
 
