@@ -1,7 +1,6 @@
 import React, { useContext, useState } from 'react'
-// import PostInput from '../UI/PostInput'
 import axios from 'axios'
-import GlobalContext from '../../context/GlobalContext'
+import GlobalContext from '../context/GlobalContext'
 import { observer } from 'mobx-react-lite'
 import { Box, Grid, TextField, Button } from '@mui/material'
 
@@ -27,12 +26,12 @@ const WallPostForm = observer(() => {
           alert('someone is false')
         } else if (response.data.success === true) {
           console.log('success')
-          UserStore.setUserAttr('posts', [...UserStore.posts, {
+          UserStore.addPost({
             author: UserStore.user.name,
             date: Date.now(),
             content: description,
             id: response.data.postId
-          }])
+          })
 
           setPostContent('')
         }

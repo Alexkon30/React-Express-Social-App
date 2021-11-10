@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import GlobalContext from '../../context/GlobalContext'
-import Loader from './Loader'
+import GlobalContext from '../context/GlobalContext'
+import Loader from '../utils/Loader'
 import { observer } from 'mobx-react-lite'
 
 const Client = observer(() => {

@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import axios from 'axios'
-import GlobalContext from '../../context/GlobalContext'
+import GlobalContext from '../context/GlobalContext'
 import { observer } from 'mobx-react-lite'
 import { Box, Divider, Typography } from '@mui/material'
 import ClearIcon from '@mui/icons-material/Clear';
@@ -33,10 +33,7 @@ const Post = observer((props) => {
           //alert(response.data.message)
           MainStore.logout()
         } else if (response.data.success === true) {
-          UserStore.setUser({
-            ...JSON.parse(JSON.stringify(UserStore.user)),
-            posts: UserStore.user.posts.filter(post => post.id !== props.id)
-          })
+          UserStore.deletePostById(props.id)
           alert(response.data.message)
         }
       })
@@ -73,27 +70,3 @@ const Post = observer((props) => {
 })
 
 export default Post
-
-
-  // < div className = "post" data - post - id={ props.id }>
-  //     <div className="post__header">
-  //       <div className="post__author">
-  //         {props.author}
-  //       </div>
-  //       <div className="post__date">
-  //         {`${date.getDate()} ${months[date.getMonth()]} ${date.getFullYear()} ${date.getHours()}:${minutes}`}
-  //       </div>
-  //       <div className="post__remove" onClick={() => removePost()}>
-  //         X
-  //       </div>
-  //     </div>
-  //     <hr />
-  //     <div className="post__content">
-  //       {props.content}
-  //     </div>
-  //     <hr />
-  //     <div className="post__footer">
-  //       <div className="likes">Like</div> /
-  //       <div className="dislikes">Dislike</div>
-  //     </div>
-  //   </div >

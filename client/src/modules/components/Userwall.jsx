@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
-import Post from '../UI/Post'
-import GlobalContext from '../../context/GlobalContext'
+import Post from './Post'
+import GlobalContext from '../context/GlobalContext'
 import { observer } from 'mobx-react-lite'
 import { Box, Typography } from '@mui/material'
 

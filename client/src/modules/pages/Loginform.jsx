@@ -10,10 +10,8 @@ const Loginform = observer(() => {
   const { MainStore, FormStore } = useContext(GlobalContext)
 
   const loginAxios = body => {
-    console.log(body)
     axios.post('http://192.168.1.5:5000/login', body)
       .then(response => {
-        console.log(response)
         if (response.data.success) {
           MainStore.login(response.data.token, JSON.stringify({ username: response.data.username }))
         }

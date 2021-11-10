@@ -20,8 +20,12 @@ export default class UserStore {
     site: ''
   }
 
-  setUserAttr(attr, value) {
-    this.user[attr] = value
+  addPost(post) {
+    this.user.posts.push(post)
+  }
+
+  deletePostById(id) {
+    this.user.posts = this.user.posts.filter(post => post.id !== id)
   }
 
   setUser(obj) {

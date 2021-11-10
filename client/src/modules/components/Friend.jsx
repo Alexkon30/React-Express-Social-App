@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { Link as ReactLink } from 'react-router-dom'
-import GlobalContext from '../../context/GlobalContext'
+import GlobalContext from '../context/GlobalContext'
 import { observer } from 'mobx-react-lite'
 import { Grid, Button, Box, Typography } from '@mui/material'
 import PetsIcon from '@mui/icons-material/Pets';

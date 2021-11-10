@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react'
 import axios from 'axios'
-import GlobalContext from '../../context/GlobalContext'
+import GlobalContext from '../context/GlobalContext'
 import { Link as ReactLink } from 'react-router-dom'
 import { observer } from 'mobx-react-lite'
 import { Grid, Button, Typography, Box } from '@mui/material'

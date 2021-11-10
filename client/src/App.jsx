@@ -1,14 +1,15 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router } from 'react-router-dom'
-import GlobalContext from './context/GlobalContext'
-import Routes from './routes'
-import './styles/App.css'
-import Navbar from './components/Navbar'
-import MainStore from './store/mainStore.js'
 import { observer } from 'mobx-react-lite'
-import { Grid } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
-import socket from './socket'
+import { Grid } from '@mui/material'
+
+import socket from './modules/utils/socket'
+import GlobalContext from './modules/context/GlobalContext'
+import Routes from './modules/utils/Routes'
+import Navbar from './modules/components/Navbar'
+import MainStore from './store/mainStore.js'
+import './styles/App.css'
 
 const theme = createTheme({
   palette: {
