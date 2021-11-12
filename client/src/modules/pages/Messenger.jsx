@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState, useMemo } from 'react'
 import Loader from '../utils/Loader'
 import Dialog from '../components/Dialog'
 import GlobalContext from '../context/GlobalContext'
@@ -18,6 +18,10 @@ const Messenger = observer(() => {
     }
     // eslint-disable-next-line
   }, [])
+
+  const result = useMemo(() =>
+    UserStore.user.dialogues.filter(person => (person.surname.toLowerCase().startsWith(searchStr.toLowerCase()) || person.name.toLowerCase().startsWith(searchStr.toLowerCase()))),
+    [searchStr, UserStore.user.dialogues])
 
   const setPartner = dialog => {
     MainStore.setLoad(true)
@@ -83,8 +87,8 @@ const Messenger = observer(() => {
               flexDirection: 'column',
               gap: '10px'
             }}>
-              {UserStore.user.dialogues.length
-                ? UserStore.user.dialogues.map(dialog => <Dialog
+              {result.length
+                ? result.map(dialog => <Dialog
                   key={dialog.dialogId}
                   onClick={() => setPartner(dialog)}
                   {...dialog} />)
