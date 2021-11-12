@@ -107,11 +107,10 @@ git clone https://github.com/Alexkon30/React-Express-Social-App.git
 
 ```bash
 
-cd client
 npm i
 
-cd ../server
-npm i
+npm run preinstall
+
 ```
 
 - Создать базу данных в MongoDB Atlas (MongoDB Cloud)
@@ -124,6 +123,14 @@ npm i
     'mongodb+srv://<username>:<password>@cluster0.pscjo.mongodb.net/<dbname>?retryWrites=true&w=majority',
   'secret': 'secret',
 };
+```
+
+- Запустить приложение
+
+```bash
+
+npm start
+
 ```
 
 ## Скриншоты приложения

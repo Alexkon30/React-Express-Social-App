@@ -1,0 +1,24 @@
+{
+  "name": "forum-react",
+  "version": "1.0.0",
+  "description": "- Регистрация/авторизация пользователей\r - Добавление/удаление друзей\r - Добавление/удаление постов\r - Личные сообщения\r - Изменение информации о пользователе в настройках\r - Поиск по пользователям, друзьям, диалогам",
+  "main": "index.js",
+  "scripts": {
+    "preinstall": "cd client && npm i && cd ../server && npm i",
+    "start": "concurrently -k \"cd client && npm start\" \"cd server && nodemon index.js\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Alexkon30/ReactTraining.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Alexkon30/ReactTraining/issues"
+  },
+  "homepage": "https://github.com/Alexkon30/ReactTraining#readme",
+  "dependencies": {
+    "concurrently": "^6.3.0"
+  }
+}
